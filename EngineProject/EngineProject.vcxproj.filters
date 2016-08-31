@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="資源檔">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="DisplayManager">
+      <UniqueIdentifier>{55a6c1c8-20c6-466b-8c78-a9255960061f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{d46e6333-cd33-4bde-9851-2af5c213aefc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGameLoop">
+      <UniqueIdentifier>{d3442f73-9447-4cf7-adef-b199cb2381f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderModel">
+      <UniqueIdentifier>{a94c00c5-f483-40cb-bfb0-0cc583be5edf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Loader">
+      <UniqueIdentifier>{4519629c-8e2c-4a91-8ddb-a608f91efcac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{5249fc50-49e1-4fc0-960b-016cfad2540b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{f836444b-bff7-4eb1-81b3-1f99d38e9fd0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DisplayManager.cpp">
+      <Filter>DisplayManager</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLooper.cpp">
+      <Filter>MainGameLoop</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicRenderModel.cpp">
+      <Filter>RenderModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderProgram.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticShader.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureModel.cpp">
+      <Filter>RenderModel</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DisplayManager.h">
+      <Filter>DisplayManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLooper.h">
+      <Filter>MainGameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicRenderModel.h">
+      <Filter>RenderModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderProgram.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticShader.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureModel.h">
+      <Filter>RenderModel</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EngineProject.rc">
+      <Filter>資源檔</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\basic.frag">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="shader\basic.vert">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="shader\terrian.frag">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="shader\terrian.vert">
+      <Filter>資源檔</Filter>
+    </None>
+  </ItemGroup>
+</Project>

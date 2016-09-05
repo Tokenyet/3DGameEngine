@@ -42,6 +42,7 @@ enum VertexAttributeLocationRule
 {
 	position = 0,
 	texCoord = 1,
+	normal = 2,
 };
 
 class Core 

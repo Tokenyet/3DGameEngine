@@ -13,6 +13,12 @@ public:
 	static void CloseDisplay();
 	// Check closable
 	static bool IsCloseRequested();
+
+	static int GetWindowWidth() { return WIDTH; }
+	
+	static int GetWindowHeight() { return HEIGHT; }
+
+	static float GetDeltaTime() { return deltaTime; }
 private:
 	// init glfw any parameter
 	static void InitGLFW();
@@ -24,6 +30,8 @@ private:
 	static const int HEIGHT = 720;
 	//static const int FPS_LIMIT = 120;
 	static GLFWwindow *window;
+	static float deltaTime;
+	static float previousTime;
 };
 #endif // ! DISPLAY_MANAGER_H
 

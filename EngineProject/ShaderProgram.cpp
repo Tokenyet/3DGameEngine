@@ -3,6 +3,8 @@
 ShaderProgram::ShaderProgram(const char *vertex_path, const char *fragment_path)
 {
 	this->program = LoadShader(vertex_path, fragment_path, nullptr, nullptr, nullptr);
+	ListAllAttributes(); //debug using 
+	ListAllUniforms();
 }
 
 
@@ -66,7 +68,7 @@ GLuint ShaderProgram::LoadShader(const char *vertex_path, const char *fragment_p
 	glLinkProgram(program);
 
 	// 確認著色器程式是否成功連結
-	DebugShader(program);
+	DebugProgram(program);
 
 	// 刪除不用的著色器
 	glDeleteShader(vertShader);
@@ -136,6 +138,76 @@ void ShaderProgram::DebugShader(GLuint shader)
 	glGetShaderInfoLog(shader, logLength, NULL, &shaderError[0]);
 	//std::cout << &shaderError[0] << std::endl;
 	Debug::Log(&shaderError[0]);
+}
+
+void ShaderProgram::DebugProgram(GLuint program)
+{
+	GLint isLinked = 0;
+	glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
+	if (isLinked == GL_FALSE)
+	{
+		GLint maxLength = 0;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+
+		//The maxLength includes the NULL character
+		std::vector<GLchar> infoLog(maxLength);
+		glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+
+		Debug::Log(&infoLog[0]);
+
+		//The program is useless now. So delete it.
+		glDeleteProgram(program);
+
+		//Provide the infolog in whatever manner you deem best.
+		//Exit with failure.
+		return;
+	}
+}
+
+void ShaderProgram::ListAllUniforms()
+{
+	GLint i;
+	GLint count;
+
+	GLint size; // size of the variable
+	GLenum type; // type of the variable (float, vec3 or mat4, etc)
+
+	const GLsizei bufSize = 16; // maximum name length
+	GLchar name[bufSize]; // variable name in GLSL
+	GLsizei length; // name length
+	glGetProgramiv(this->GetProgram(), GL_ACTIVE_UNIFORMS, &count);
+	std::string s = "Active Uniforms: " + std::to_string(count);
+	Debug::Log(s);
+
+	for (i = 0; i < count; i++)
+	{
+		glGetActiveUniform(this->GetProgram(), (GLuint)i, bufSize, &length, &size, &type, name);
+		std::string st = "Uniform #" + std::to_string(i) + " Type :" + std::to_string(type) + "Name : " + name;
+		Debug::Log(st);
+	}
+}
+
+void ShaderProgram::ListAllAttributes()
+{
+	GLint i;
+	GLint count;
+
+	GLint size; // size of the variable
+	GLenum type; // type of the variable (float, vec3 or mat4, etc)
+
+	const GLsizei bufSize = 16; // maximum name length
+	GLchar name[bufSize]; // variable name in GLSL
+	GLsizei length; // name length
+	glGetProgramiv(program, GL_ACTIVE_ATTRIBUTES, &count);
+	std::string s = "Active Attributes: " + std::to_string(count);
+	Debug::Log(s);
+
+	for (i = 0; i < count; i++)
+	{
+		glGetActiveAttrib(program, (GLuint)i, bufSize, &length, &size, &type, name);
+		std::string st = "Attribute #" + std::to_string(i) + " Type :" + std::to_string(type) + "Name : " + name;
+		Debug::Log(st);
+	}
 }
 
 void ShaderProgram::BindAttribute(int attributeLoc, const char* attributeName)

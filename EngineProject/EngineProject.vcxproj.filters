@@ -26,6 +26,18 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{f836444b-bff7-4eb1-81b3-1f99d38e9fd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{9c9d14e0-f1d6-4e87-b9b8-65c24d8303c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{4f859108-e4d9-4cf4-a851-e12ee735b110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FundermentalShape">
+      <UniqueIdentifier>{01408da9-79cb-47e4-9e85-600f72c6d088}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Light">
+      <UniqueIdentifier>{9b7e579c-963e-4c3b-8723-7be51d4a40df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DisplayManager.cpp">
@@ -44,9 +56,6 @@
     <ClCompile Include="BasicRenderModel.cpp">
       <Filter>RenderModel</Filter>
     </ClCompile>
-    <ClCompile Include="Loader.cpp">
-      <Filter>Loader</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
@@ -58,6 +67,48 @@
     </ClCompile>
     <ClCompile Include="TextureModel.cpp">
       <Filter>RenderModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="AssimpLoader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshModel.cpp">
+      <Filter>RenderModel</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshesModel.cpp">
+      <Filter>RenderModel</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshesRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeShader.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="LightSourceRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Light</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeShape.cpp">
+      <Filter>FundermentalShape</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="MasterRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelShader.cpp">
+      <Filter>Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +145,45 @@
     <ClInclude Include="TextureModel.h">
       <Filter>RenderModel</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="OBJLoader.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpLoader.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshModel.h">
+      <Filter>RenderModel</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshesModel.h">
+      <Filter>RenderModel</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshesRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeShader.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="LightSourceRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Light</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeShape.h">
+      <Filter>FundermentalShape</Filter>
+    </ClInclude>
+    <ClInclude Include="MasterRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelShader.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EngineProject.rc">
@@ -111,6 +201,18 @@
       <Filter>資源檔</Filter>
     </None>
     <None Include="shader\terrian.vert">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="shader\lightSource.frag">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="shader\lightSource.vert">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="shader\mesh.frag">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="shader\mesh.vert">
       <Filter>資源檔</Filter>
     </None>
   </ItemGroup>

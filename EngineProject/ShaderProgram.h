@@ -24,6 +24,9 @@ private:
 	GLuint CreateBasicShader(int shaderCmd, const char * path);
 	GLuint CompileShader(int shaderCmd, GLuint shader, const char* Source);
 	void DebugShader(GLuint shader);
+	void DebugProgram(GLuint program);
+	void ListAllUniforms();
+	void ListAllAttributes();
 	GLuint program;
 };
 

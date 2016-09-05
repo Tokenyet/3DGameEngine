@@ -1,6 +1,10 @@
 #include "TextureModel.h"
 
 
+TextureModel::TextureModel()
+{
+}
+
 TextureModel::TextureModel(BasicRenderModel model, GLuint texture)
 {
 	this->model = model;

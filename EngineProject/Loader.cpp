@@ -41,6 +41,18 @@ BasicRenderModel Loader::LoadRenderModel(float position[], int pdataLength, int 
 	return BasicRenderModel(vaoID, indexLength);
 }
 
+BasicRenderModel Loader::LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength, float texCoords[], int texCoordLength, float normals[], int normalLength)
+{
+	GLuint vaoID = CreateVAO();
+	BindVAO(vaoID);
+	BindVertexAttribute(VertexAttributeLocationRule::position, 3, position, pdataLength);
+	BindVertexAttribute(VertexAttributeLocationRule::texCoord, 2, texCoords, texCoordLength);
+	BindVertexAttribute(VertexAttributeLocationRule::normal, 3, normals, normalLength);
+	BindIndices(indices, indexLength);
+	UnbindVAO();
+	return BasicRenderModel(vaoID, indexLength);
+}
+
 int Loader::LoadTexture(const char * path)
 {
 	GLuint texture;

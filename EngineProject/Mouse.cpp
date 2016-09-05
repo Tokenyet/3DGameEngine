@@ -12,5 +12,5 @@ void Mouse::SetPosition(double xpos, double ypos)
 }
 
 // static member need to declare in cpp, or compile will report unsloved external symbol
-double Mouse::globalXpos;
-double Mouse::globalYpos;
+double Mouse::globalXpos = 0;
+double Mouse::globalYpos = 0;

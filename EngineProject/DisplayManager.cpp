@@ -10,10 +10,14 @@ void DisplayManager::CreateDisplay()
 	int width, height;
 	glfwGetFramebufferSize(window, &width, &height);
 	glViewport(0, 0, width, height);
+	previousTime = deltaTime = 0.0f;
 }
 
 void DisplayManager::UpdateDisplay()
 {
+	float currentTime = (float)glfwGetTime();
+	deltaTime = currentTime - previousTime;
+	previousTime = currentTime;
 	glfwSwapBuffers(window); // show on windows
 	glfwPollEvents(); // polling keyboard,mouse...event.
 }
@@ -77,3 +81,5 @@ void DisplayManager::InitGLEW()
 
 // static member need to declare in cpp, or compile will report unsloved external symbol
 GLFWwindow* DisplayManager::window;
+float DisplayManager::deltaTime;
+float DisplayManager::previousTime;

@@ -1,0 +1,14 @@
+﻿## 3D Game Engine ##
+This is a simple game engine, and made by Dowen.
+If you want any detail, go [Here](Tokenyet.github.io) and find Development Jornal(遊戲引擎開發日誌) for checking.
+
+Development Enviroment:
+1. Visual Studio 2015
+2. GLFW
+3. GLEW
+4. GLM
+5. SOIL2
+6. ASSIMP
+
+
+

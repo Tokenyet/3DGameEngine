@@ -10,15 +10,11 @@
 class LightSourceRenderer
 {
 public:
-	LightSourceRenderer(CubeShader &shader);
+	LightSourceRenderer(CubeShader &shader, glm::mat4 projectionMatrix);
 	~LightSourceRenderer();
-	void Prepare();
 	void Render(Camera camera, Light entity);
 private:
 	CubeShader &shader;
 	glm::mat4 projectionMatrix;
-	const float FOV = 45.0f;
-	const float NEAR_PLANE = 0.1f;
-	const float FAR_PLANE = 500.0f;
 };
 

@@ -1,24 +1,26 @@
 #pragma once
 #include <map>
 #include "BasicRenderModel.h"
+#include "Texture.h"
+
 
 class TextureModel
 {
 public:
 	TextureModel();
-	TextureModel(BasicRenderModel model, GLuint texture);
+	TextureModel(BasicRenderModel model, Texture texture);
 	BasicRenderModel GetBasicRenderModel();
 	GLuint GetTextureID();
 	// for map using
 	bool operator<(TextureModel const& input) const
 	{
-		if (textureID < input.textureID)
+		if (texture < input.texture)
 			return true;
 		else
 			return false;
 	}
 private:
 	BasicRenderModel model;
-	GLuint textureID;
+	Texture texture;
 };
 

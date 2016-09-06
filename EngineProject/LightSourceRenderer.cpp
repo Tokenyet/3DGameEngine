@@ -1,25 +1,14 @@
 #include "LightSourceRenderer.h"
 
 
-LightSourceRenderer::LightSourceRenderer(CubeShader &shader) : shader(shader)
+LightSourceRenderer::LightSourceRenderer(CubeShader &shader, glm::mat4 projectionMatrix) : shader(shader)
 {
-	float width = (float)DisplayManager::GetWindowWidth();
-	float height = (float)DisplayManager::GetWindowHeight();
-	projectionMatrix = glm::perspective(FOV, (float)width / (float)height, NEAR_PLANE, FAR_PLANE);
+	this->projectionMatrix = projectionMatrix;
 }
 
 
 LightSourceRenderer::~LightSourceRenderer()
 {
-}
-
-void LightSourceRenderer::Prepare()
-{
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_FRONT);
-	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.5f, 0.5f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void LightSourceRenderer::Render(Camera camera, Light light)

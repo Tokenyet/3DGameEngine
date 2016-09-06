@@ -22,7 +22,7 @@ public:
 	~StaticShader();
 protected:
 	// set layout location for specific vertex attribute
-	void BindAttributes();
+	virtual void BindAttributes();
 	GLuint GetUniformLocation(const char* name);
 	int diffuseCount;
 	int specularCount;

@@ -38,6 +38,9 @@
     <Filter Include="Light">
       <UniqueIdentifier>{9b7e579c-963e-4c3b-8723-7be51d4a40df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Terrain">
+      <UniqueIdentifier>{13ab4d1c-1aa7-4c51-8342-f0e494ab6133}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DisplayManager.cpp">
@@ -109,6 +112,15 @@
     </ClCompile>
     <ClCompile Include="ModelShader.cpp">
       <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="TerriniShader.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +195,18 @@
     </ClInclude>
     <ClInclude Include="ModelShader.h">
       <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>RenderModel</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainShader.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,24 +1,13 @@
 #include "MeshesRenderer.h"
 
-MeshesRenderer::MeshesRenderer(ModelShader &shader) : shader(shader)
+MeshesRenderer::MeshesRenderer(ModelShader &shader, glm::mat4 projectionMatrix) : shader(shader)
 {
-	float width = (float)DisplayManager::GetWindowWidth();
-	float height = (float)DisplayManager::GetWindowHeight();
-	projectionMatrix = glm::perspective(FOV, (float)width / (float)height, NEAR_PLANE, FAR_PLANE);
+	this->projectionMatrix = projectionMatrix;
 }
 
 
 MeshesRenderer::~MeshesRenderer()
 {
-}
-
-void MeshesRenderer::Prepare()
-{
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_FRONT);
-	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.5f, 0.5f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void MeshesRenderer::Render(Light light, Camera camera, Entity<MeshesModel> entity)

@@ -5,10 +5,10 @@ TextureModel::TextureModel()
 {
 }
 
-TextureModel::TextureModel(BasicRenderModel model, GLuint texture)
+TextureModel::TextureModel(BasicRenderModel model, Texture texture)
 {
 	this->model = model;
-	this->textureID = texture;
+	this->texture = texture;
 }
 
 BasicRenderModel TextureModel::GetBasicRenderModel()
@@ -18,5 +18,5 @@ BasicRenderModel TextureModel::GetBasicRenderModel()
 
 GLuint TextureModel::GetTextureID()
 {
-	return this->textureID;
+	return this->texture.ID;
 }

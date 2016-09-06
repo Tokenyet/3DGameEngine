@@ -1,10 +1,8 @@
 #include "Renderer.h"
 
-Renderer::Renderer(StaticShader &shader) : shader(shader)
+Renderer::Renderer(StaticShader &shader, glm::mat4 projectionMatrix) : shader(shader)
 {
-	float width = (float)DisplayManager::GetWindowWidth();
-	float height = (float)DisplayManager::GetWindowHeight();
-	projectionMatrix = glm::perspective(FOV, (float)width / (float)height, NEAR_PLANE, FAR_PLANE);
+	this->projectionMatrix = projectionMatrix;
 }
 
 

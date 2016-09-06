@@ -3,10 +3,13 @@
 #include "DisplayManager.h"
 #include "BasicRenderModel.h"
 #include "StaticShader.h"
-#include "LightSourceRenderer.h"
+#include "TerrainShader.h"
+#include "CubeShader.h"
 #include "Renderer.h"
 #include "MeshesRenderer.h"
 #include "LightSourceRenderer.h"
+#include "TerrainRenderer.h"
+#include "Core.h"
 #include "Entity.h"
 #include "Camera.h"
 
@@ -22,6 +25,7 @@ public:
 	void ProcessEntity(Entity<TextureModel> entity);
 	void ProcessEntity(Entity<MeshesModel> entity);
 	void ProcessEntity(Entity<BasicRenderModel> entity);
+	void ProcessTerrian(Terrain entity);
 private:
 	std::map<TextureModel, std::vector<Entity<TextureModel>>> texturedEntities;
 	std::vector<Entity<BasicRenderModel>> basicEntities;
@@ -33,6 +37,9 @@ private:
 	CubeShader cubeShader;
 	std::vector<Light> lights;
 	LightSourceRenderer *lightRenderer;
+	TerrainShader terrainShader;
+	std::vector<Terrain> terrains;
+	TerrainRenderer *terrainRenderer;
 	glm::mat4 projectionMatrix;
 	const float FOV = 45.0f;
 	const float NEAR_PLANE = 0.1f;

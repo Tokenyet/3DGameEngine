@@ -4,9 +4,13 @@
 
 MasterRenderer::MasterRenderer()
 {
-	renderer = new Renderer(shader);
-	meshesRenderer = new MeshesRenderer(meshshader);
-	lightRenderer = new LightSourceRenderer(cubeShader);
+	float width = (float)DisplayManager::GetWindowWidth();
+	float height = (float)DisplayManager::GetWindowHeight();
+	projectionMatrix = glm::perspective(FOV, (float)width / (float)height, NEAR_PLANE, FAR_PLANE);
+	renderer = new Renderer(shader, projectionMatrix);
+	meshesRenderer = new MeshesRenderer(meshshader, projectionMatrix);
+	lightRenderer = new LightSourceRenderer(cubeShader, projectionMatrix);
+	terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
 }
 
 
@@ -34,6 +38,8 @@ void MasterRenderer::Render(Light light, Camera camera)
 	texturedEntities.clear();
 	lightRenderer->Render(camera, light);
 	meshesEntities.clear();
+	terrainRenderer->Render(light, camera, terrains);
+	terrains.clear();
 }
 
 void MasterRenderer::ProcessEntity(Entity<TextureModel> entity)
@@ -64,4 +70,9 @@ void MasterRenderer::ProcessEntity(Entity<MeshesModel> entity)
 void MasterRenderer::ProcessEntity(Entity<BasicRenderModel> entity)
 {
 	basicEntities.push_back(entity);
+}
+
+void MasterRenderer::ProcessTerrian(Terrain terrain)
+{
+	terrains.push_back(terrain);
 }

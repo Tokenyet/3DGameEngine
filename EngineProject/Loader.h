@@ -1,6 +1,7 @@
 #pragma once
 #include "Core.h"
 #include "BasicRenderModel.h"
+#include "Texture.h"
 
 // Create Render Model by data
 class Loader
@@ -13,7 +14,7 @@ public:
 	BasicRenderModel LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength);
 	BasicRenderModel LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength, float texCoords[], int texCoordLength);
 	BasicRenderModel LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength, float texCoords[], int texCoordLength, float normals[], int normalLength);
-	int LoadTexture(const char* path);
+	Texture LoadTexture(const char* path);
 	void CleanUp();
 private:
 	// Create a empty vao object

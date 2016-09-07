@@ -16,6 +16,11 @@ void Light::SetColorParameter(glm::vec3 color, float ambient, float diffuse, flo
 	this->specular = specular;
 }
 
+void Light::MovePosition(float x, float y, float z)
+{
+	this->position += glm::vec3(x, y, z);
+}
+
 glm::vec3 Light::GetPosition()
 {
 	return position;

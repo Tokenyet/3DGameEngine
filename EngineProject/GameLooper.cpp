@@ -34,16 +34,16 @@ void GameLooper::Loop()
 	MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/nanosuit/nanosuit.obj");
 	Entity<MeshesModel> mesh(meshesRenderObject, glm::vec3(0, 0, -2), 0, 0, 0, 0.1f);
 
-	std::vector<BasicRenderModel> dragonObject = assimpLoader.GetBasicModel("3dmodel/dragon/dragon.obj");
+	/*std::vector<BasicRenderModel> dragonObject = assimpLoader.GetBasicModel("3dmodel/dragon/dragon.obj");
 	TextureModel dragonTextureObject(dragonObject[0], loader.LoadTexture("3dmodel/dragon/white.png"));
-	Entity<TextureModel> dragonEntity(dragonTextureObject, glm::vec3(5.0f, 0.0f, -4.0f), 0, 0, 0, 0.5f);
+	Entity<TextureModel> dragonEntity(dragonTextureObject, glm::vec3(5.0f, 0.0f, -4.0f), 0, 0, 0, 0.5f);*/
 
-	Light light(glm::vec3(0.2f, 0.2f, -2), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
+	Light light(glm::vec3(0.2f, 1.0f, -1), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
 		CubeShape::Indices, CubeShape::GetIndexLength()));
 	Camera camera(glm::vec3(0, 0, 0));
 	//MeshesRenderer meshRender(staticShader);
 	std::vector<Entity<TextureModel>> cubes;
-	cubes.push_back(dragonEntity);
+	//cubes.push_back(dragonEntity);
 	srand((unsigned)time(NULL));
 	for (int i = 0; i < 200; i++) 
 	{
@@ -67,14 +67,41 @@ void GameLooper::Loop()
 			0.0f, 0.0f,
 			0.0f, 2.0f));
 	}
+
+	std::vector<BasicRenderModel> grass = assimpLoader.GetBasicModel("3dmodel/grass/grassModel.obj");
+	Texture grassTexture = loader.LoadTexture("3dmodel/grass/grassTexture.png");
+	grassTexture.SetTransparent(true);
+	grassTexture.SetFakeLighting(true);
+	TextureModel grassTex(grass[0], grassTexture);
+	std::vector<BasicRenderModel> fern = assimpLoader.GetBasicModel("3dmodel/grass/fern.obj");
+	Texture fernTexture = loader.LoadTexture("3dmodel/grass/fern.png");
+	fernTexture.SetTransparent(true);
+	fernTexture.SetFakeLighting(true);
+	TextureModel fernTex(fern[0], fernTexture);
+	for (int i = 0; i < 100; i++)
+	{
+		float x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * 800.0f - 400.0f;
+		float y = 0;
+		float z = static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * -400.0f -10.0f;
+		Entity<TextureModel> grassEntity(grassTex, glm::vec3(x, y, z), 0, 0, 0, 1.0f);
+		x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * 800.0f - 400.0f;
+		z = static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * -400.0f;
+		Entity<TextureModel> fernEntity(fernTex, glm::vec3(x, y, z), 0, 0, 0, 1.0f);
+		cubes.push_back(grassEntity);
+		cubes.push_back(fernEntity);
+	}
+
 	/*cubes.push_back(Entity<TextureModel>(textureRenderObject, glm::vec3(0, 0, -2)
 		,0.0f,0.0f,0.0f, 1.0f));*/
 	std::vector<Terrain> terrains;
-	terrains.push_back(Terrain(0, -1, loader, loader.LoadTexture("images/grass_ground_d.jpg")));
-	terrains.push_back(Terrain(-1, -1, loader, loader.LoadTexture("images/grass_ground_d.jpg")));
+	terrains.push_back(Terrain(0, -1, loader, loader.LoadTexture("images/savanna_green_d.jpg")));
+	terrains.push_back(Terrain(-1, -1, loader, loader.LoadTexture("images/savanna_green_d.jpg")));
 	while (!DisplayManager::IsCloseRequested())
 	{
 		//entity.MovePosition(0, 0, -0.01f);
+		float currentTime = (float)glfwGetTime();
+		light.MovePosition(glm::sin(currentTime/2.0f)/10.0f, 0.0f, -1 * glm::sin(currentTime/2.0f)/10.0f);
+		//light.MovePosition(0.01f, 0.0f, 0.01f);
 		for each (Entity<TextureModel> entity in cubes)
 			masterRenderer.ProcessEntity(entity);
 		masterRenderer.ProcessEntity(mesh);

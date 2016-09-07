@@ -73,7 +73,7 @@ MeshModel AssimpLoader::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 	int indexLength;
 
 	//std::vector<Texture> textures;
-	std::map<TextureType, std::vector<GLuint>> textures;
+	std::map<TextureType, std::vector<Texture>> textures;
 	for (GLuint i = 0; i < mesh->mNumVertices; i++)
 	{
 		// Process vertex positions, normals and texture coordinates
@@ -107,14 +107,14 @@ MeshModel AssimpLoader::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 	if (mesh->mMaterialIndex >= 0)
 	{
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-		std::vector<GLuint> diffuseMaps = this->LoadMaterialTextures(material,
+		std::vector<Texture> diffuseMaps = this->LoadMaterialTextures(material,
 			aiTextureType_DIFFUSE, "texture_diffuse");
-		textures.insert(std::pair<TextureType,std::vector<GLuint>>
+		textures.insert(std::pair<TextureType,std::vector<Texture>>
 			(TextureType::diffuse,
 				diffuseMaps));
-		std::vector<GLuint> specularMaps = this->LoadMaterialTextures(material,
+		std::vector<Texture> specularMaps = this->LoadMaterialTextures(material,
 			aiTextureType_SPECULAR, "texture_specular");
-		textures.insert(std::pair<TextureType, std::vector<GLuint>>
+		textures.insert(std::pair<TextureType, std::vector<Texture>>
 			(TextureType::specular,
 				specularMaps));
 	}
@@ -153,7 +153,7 @@ BasicRenderModel AssimpLoader::ProcessMeshBasicVersion(aiMesh * mesh, const aiSc
 	int indexLength;
 
 	//std::vector<Texture> textures;
-	std::map<TextureType, std::vector<GLuint>> textures;
+	std::map<TextureType, std::vector<Texture>> textures;
 	for (GLuint i = 0; i < mesh->mNumVertices; i++)
 	{
 		// Process vertex positions, normals and texture coordinates
@@ -186,9 +186,9 @@ BasicRenderModel AssimpLoader::ProcessMeshBasicVersion(aiMesh * mesh, const aiSc
 	return this->loader.LoadRenderModel(vertices, vertexLength, indices, indexLength, texCoords, texCoordLength, normals, normalLength);
 }
 
-std::vector<GLuint> AssimpLoader::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
+std::vector<Texture> AssimpLoader::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
 {
-	std::vector<GLuint> textures;
+	std::vector<Texture> textures;
 	for (GLuint i = 0; i < mat->GetTextureCount(type); i++)
 	{
 		aiString str;

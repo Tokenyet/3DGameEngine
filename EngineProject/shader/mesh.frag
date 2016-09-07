@@ -18,11 +18,14 @@ struct Light
 in vec2 TexCoords;
 in vec3 FragPos;
 in vec3 Normal;
+in float Visibility;
 out vec4 color;
 
 uniform vec3 viewPos;
 uniform Material material;
 uniform Light light;
+
+uniform vec3 skyColor;
 
 void main()
 {
@@ -45,4 +48,5 @@ void main()
 
 	color = vec4(ambient + diffuse + specular, 1.0f);  
 	//color = vec4(specular, 1.0f);  
+	color = mix(vec4(skyColor, 1.0f), color, Visibility);
 } 

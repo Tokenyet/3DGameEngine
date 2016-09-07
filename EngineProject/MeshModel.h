@@ -1,5 +1,6 @@
 #pragma once
 #include "BasicRenderModel.h"
+#include "Texture.h"
 #include <map>
 
 enum TextureType {
@@ -12,11 +13,11 @@ class MeshModel
 {
 public:
 	MeshModel();
-	MeshModel(BasicRenderModel model, std::map<TextureType, std::vector<GLuint>> textures);
+	MeshModel(BasicRenderModel model, std::map<TextureType, std::vector<Texture>> textures);
 	BasicRenderModel GetBasicRenderModel();
-	std::map<TextureType, std::vector<GLuint>> GetTexutres();
+	std::map<TextureType, std::vector<Texture>> GetTexutres();
 private:
 	BasicRenderModel model;
-	std::map<TextureType, std::vector<GLuint>> textures;
+	std::map<TextureType, std::vector<Texture>> textures;
 };
 

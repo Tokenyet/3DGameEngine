@@ -26,7 +26,10 @@ public:
 	void ProcessEntity(Entity<MeshesModel> entity);
 	void ProcessEntity(Entity<BasicRenderModel> entity);
 	void ProcessTerrian(Terrain entity);
+	static void EnableCulling();
+	static void DisableCulling();
 private:
+	const glm::vec3 SKY_COLOR = glm::vec3(0.5f, 0.5f, 0.3f);
 	std::map<TextureModel, std::vector<Entity<TextureModel>>> texturedEntities;
 	std::vector<Entity<BasicRenderModel>> basicEntities;
 	StaticShader shader;
@@ -44,6 +47,7 @@ private:
 	const float FOV = 45.0f;
 	const float NEAR_PLANE = 0.1f;
 	const float FAR_PLANE = 500.0f;
+	void PrepareStaticShader(StaticShader &shader, Camera camera, Light light);
 };
 
 

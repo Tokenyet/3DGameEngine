@@ -104,6 +104,20 @@ void StaticShader::SetProjectionMatrix(glm::mat4 projectionMatrix)
 	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 }
 
+void StaticShader::SetFakeLighting(bool enable)
+{
+	int loc = GetUniformLocation("useFakeLighting");
+	if (loc == -1) Debug::Log("Fake Lighting Setting Fail.");
+	glUniform1i(loc, enable);
+}
+
+void StaticShader::SetSkyColor(glm::vec3 color)
+{
+	int loc = GetUniformLocation("skyColor");
+	if (loc == -1) Debug::Log("Fake Lighting Setting Fail.");
+	glUniform3fv(loc, 1, glm::value_ptr(color));
+}
+
 void StaticShader::ClearRelativeData()
 {
 	diffuseCount = 0;

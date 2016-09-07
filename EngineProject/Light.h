@@ -8,6 +8,7 @@ public:
 	Light(glm::vec3 position, BasicRenderModel model);
 	void SetColorParameter(glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f)
 		, float ambient = 0.2f, float diffuse = 0.5f, float specular = 1.0f);
+	void MovePosition(float x, float y, float z);
 	glm::vec3 GetPosition();
 	glm::vec3 GetColor();
 	glm::vec3 GetAmbient();

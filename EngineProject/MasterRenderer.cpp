@@ -23,23 +23,36 @@ MasterRenderer::~MasterRenderer()
 
 void MasterRenderer::Prepare()
 {
-	glEnable(GL_CULL_FACE);
+	EnableCulling();
 	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.5f, 0.5f, 0.3f, 1.0f);
+	glClearColor(SKY_COLOR.x, SKY_COLOR.y, SKY_COLOR.z, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void MasterRenderer::Render(Light light, Camera camera)
 {
 	Prepare();
-	renderer->Render(light, camera, texturedEntities);
-	for each (Entity<MeshesModel> meshes in meshesEntities)
-		meshesRenderer->Render(light, camera, meshes);
+	shader.StartProgram();
+	PrepareStaticShader(shader, camera, light);
+	renderer->Render(texturedEntities);
 	texturedEntities.clear();
+	shader.StopProgram();
+
+
 	lightRenderer->Render(camera, light);
+
+	meshshader.StartProgram();
+	PrepareStaticShader(meshshader, camera, light);
+	for each (Entity<MeshesModel> meshes in meshesEntities)
+		meshesRenderer->Render(meshes);
 	meshesEntities.clear();
-	terrainRenderer->Render(light, camera, terrains);
+	meshshader.StopProgram();
+
+	terrainShader.StartProgram();
+	PrepareStaticShader(terrainShader, camera, light);
+	terrainRenderer->Render(terrains);
 	terrains.clear();
+	terrainShader.StopProgram();
 }
 
 void MasterRenderer::ProcessEntity(Entity<TextureModel> entity)
@@ -50,7 +63,7 @@ void MasterRenderer::ProcessEntity(Entity<TextureModel> entity)
 	for (std::map<TextureModel, std::vector<Entity<TextureModel>>>::iterator it = texturedEntities.begin(); it != texturedEntities.end(); ++it)
 	{
 		existModel = it->first;
-		if (existModel.GetTextureID() == textureModel.GetTextureID())
+		if (existModel.GetTexture() == textureModel.GetTexture())
 		{
 			it->second.push_back(entity);
 			return;
@@ -75,4 +88,23 @@ void MasterRenderer::ProcessEntity(Entity<BasicRenderModel> entity)
 void MasterRenderer::ProcessTerrian(Terrain terrain)
 {
 	terrains.push_back(terrain);
+}
+
+void MasterRenderer::EnableCulling()
+{
+	glEnable(GL_CULL_FACE);
+}
+
+void MasterRenderer::DisableCulling()
+{
+	glDisable(GL_CULL_FACE);
+}
+
+void MasterRenderer::PrepareStaticShader(StaticShader & shader, Camera camera, Light light)
+{
+	shader.SetLight(light);
+	shader.SetSkyColor(SKY_COLOR);
+	shader.SetViewMatrix(camera.GetViewMatrix());
+	shader.SetViewPosition(camera.GetCameraPosition());
+	shader.SetProjectionMatrix(projectionMatrix);
 }

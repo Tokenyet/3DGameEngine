@@ -16,7 +16,7 @@ BasicRenderModel TextureModel::GetBasicRenderModel()
 	return this->model;
 }
 
-GLuint TextureModel::GetTextureID()
+Texture TextureModel::GetTexture()
 {
-	return this->texture.ID;
+	return this->texture;
 }

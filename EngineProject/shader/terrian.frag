@@ -12,6 +12,7 @@ struct Light
 in vec2 TexCoords;
 in vec3 FragPos;
 in vec3 Normal;
+in float Visibility;
 out vec4 color;
 
 uniform vec3 viewPos;
@@ -21,6 +22,8 @@ uniform Light light;
 uniform sampler2D diffuse;
 uniform vec3 specular;
 uniform float shininess;
+
+uniform vec3 skyColor;
 
 void main()
 {
@@ -42,4 +45,5 @@ void main()
     //color = vec4(1.0f, 0.5f, 0.2f, 1.0f);
 	color = vec4(ambientValue + diffuseValue + specularValue , 1.0f);  
 	//color = vec4(specular, 1.0f);  
+	color = mix(vec4(skyColor, 1.0f), color, Visibility);
 } 

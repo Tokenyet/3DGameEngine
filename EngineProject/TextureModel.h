@@ -10,7 +10,7 @@ public:
 	TextureModel();
 	TextureModel(BasicRenderModel model, Texture texture);
 	BasicRenderModel GetBasicRenderModel();
-	GLuint GetTextureID();
+	Texture GetTexture();
 	// for map using
 	bool operator<(TextureModel const& input) const
 	{

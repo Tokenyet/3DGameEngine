@@ -18,6 +18,8 @@ public:
 	void SetViewPosition(glm::vec3 viewPosition);
 	void SetViewMatrix(glm::mat4 viewMatrix);
 	void SetProjectionMatrix(glm::mat4 projectionMatrix);
+	void SetFakeLighting(bool enable = false);
+	void SetSkyColor(glm::vec3 color);
 	virtual void ClearRelativeData();
 	~StaticShader();
 protected:

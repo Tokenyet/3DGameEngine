@@ -25,7 +25,7 @@ private:
 	MeshModel ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	void ProcessNodeBaiscVersion(aiNode* node, const aiScene* scene, std::vector<BasicRenderModel> &basics);
 	BasicRenderModel ProcessMeshBasicVersion(aiMesh* mesh, const aiScene* scene);
-	std::vector<GLuint> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
+	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 	std::string directory;
 	std::vector<aiString> texturesLoaded;
 };

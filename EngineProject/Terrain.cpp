@@ -1,16 +1,22 @@
 #include "Terrain.h"
 
-Terrain::Terrain(int gridX, int gridZ, Loader &loader, Texture texture) : loader(loader)
+Terrain::Terrain(int gridX, int gridZ, Loader &loader, Texture blendMap, TerrainTexturePack pack) : loader(loader)
 {
-	this->texture = texture;
+	this->blendMap = blendMap;
 	this->x = gridX * SIZE;
 	this->z = gridZ * SIZE;
 	this->model = GenerateTerrian();
+	this->terrainTexturePack = pack;
 }
 
-Texture Terrain::GetTexture()
+Texture Terrain::GetBlendMap()
 {
-	return this->texture;
+	return this->blendMap;
+}
+
+TerrainTexturePack Terrain::GetTerrainTexturePack()
+{
+	return this->terrainTexturePack;
 }
 
 BasicRenderModel Terrain::GetModel()

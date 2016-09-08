@@ -1,5 +1,7 @@
 #pragma once
 #include "StaticShader.h"
+#include "TerrainTexturePack.h"
+
 class TerrainShader :
 	public StaticShader
 {
@@ -9,5 +11,7 @@ private:
 public:
 	TerrainShader();
 	~TerrainShader();
+	void SetBlendMap(GLuint blendMap);
+	void SetTerrainTextures(TerrainTexturePack pack);
 };
 

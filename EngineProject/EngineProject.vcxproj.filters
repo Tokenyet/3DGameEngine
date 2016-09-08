@@ -122,6 +122,9 @@
     <ClCompile Include="Terrain.cpp">
       <Filter>Terrain</Filter>
     </ClCompile>
+    <ClCompile Include="TerrainTexturePack.cpp">
+      <Filter>Terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisplayManager.h">
@@ -206,6 +209,9 @@
       <Filter>Shader</Filter>
     </ClInclude>
     <ClInclude Include="Terrain.h">
+      <Filter>Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainTexturePack.h">
       <Filter>Terrain</Filter>
     </ClInclude>
   </ItemGroup>

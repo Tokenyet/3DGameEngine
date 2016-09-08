@@ -141,6 +141,7 @@
     <ClCompile Include="StaticShader.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TerrainRenderer.cpp" />
+    <ClCompile Include="TerrainTexturePack.cpp" />
     <ClCompile Include="TerriniShader.cpp" />
     <ClCompile Include="TextureModel.cpp" />
   </ItemGroup>
@@ -171,6 +172,7 @@
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TerrainRenderer.h" />
     <ClInclude Include="TerrainShader.h" />
+    <ClInclude Include="TerrainTexturePack.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureModel.h" />
   </ItemGroup>

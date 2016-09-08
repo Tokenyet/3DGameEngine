@@ -14,7 +14,7 @@ public:
 private:
 	TerrainShader &shader;
 	glm::mat4 projectionMatrix;
-	void PrepareTextureModel(Texture texture);
+	void PrepareTextureModel(Texture blendMap, TerrainTexturePack pack);
 	void UnbindTextureModel();
 	void PrepareInstance(Terrain terrain);
 };

@@ -12,6 +12,7 @@
 #include "CubeShader.h"
 #include "LightSourceRenderer.h"
 #include "MasterRenderer.h"
+#include "TerrainTexturePack.h"
 
 #include <vector>
 #include <time.h>
@@ -93,9 +94,18 @@ void GameLooper::Loop()
 
 	/*cubes.push_back(Entity<TextureModel>(textureRenderObject, glm::vec3(0, 0, -2)
 		,0.0f,0.0f,0.0f, 1.0f));*/
+	/**Terrain Start**/
 	std::vector<Terrain> terrains;
-	terrains.push_back(Terrain(0, -1, loader, loader.LoadTexture("images/savanna_green_d.jpg")));
-	terrains.push_back(Terrain(-1, -1, loader, loader.LoadTexture("images/savanna_green_d.jpg")));
+	Texture background = loader.LoadTexture("images/grass_green_d.jpg");
+	Texture rTexture = loader.LoadTexture("images/grass_autumn_orn_d.jpg");
+	Texture gTexture = loader.LoadTexture("images/adesert_stone_d.jpg");
+	Texture bTexture = loader.LoadTexture("images/island_sand_d.jpg");
+	Texture blendMap = loader.LoadTexture("images/blendMap.png");
+	TerrainTexturePack pack(background, rTexture, gTexture, bTexture);
+
+	terrains.push_back(Terrain(0, -1, loader, blendMap, pack));
+	terrains.push_back(Terrain(-1, -1, loader, blendMap, pack));
+	/**Terrain End**/
 	while (!DisplayManager::IsCloseRequested())
 	{
 		//entity.MovePosition(0, 0, -0.01f);

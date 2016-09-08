@@ -16,7 +16,7 @@ void TerrainRenderer::Render(std::vector<Terrain> terrains)
 {
 	for each (Terrain terrain in terrains)
 	{
-		PrepareTextureModel(terrain.GetTexture());
+		PrepareTextureModel(terrain.GetBlendMap(), terrain.GetTerrainTexturePack());
 		PrepareInstance(terrain);
 		glBindVertexArray(terrain.GetModel().GetVaoID());
 		glDrawElements(GL_TRIANGLE_STRIP, terrain.GetModel().GetVertexCount(), GL_UNSIGNED_INT, 0);
@@ -26,9 +26,10 @@ void TerrainRenderer::Render(std::vector<Terrain> terrains)
 }
 
 
-void TerrainRenderer::PrepareTextureModel(Texture texture)
+void TerrainRenderer::PrepareTextureModel(Texture blendMap, TerrainTexturePack pack)
 {
-	shader.SetDiffuse(texture.GetID());
+	shader.SetBlendMap(blendMap.GetID());
+	shader.SetTerrainTextures(pack);
 	shader.SetSpecular(glm::vec3(1.0f));
 	shader.SetShininess();
 }

@@ -13,6 +13,8 @@
 #include "LightSourceRenderer.h"
 #include "MasterRenderer.h"
 #include "TerrainTexturePack.h"
+#include "Player.h"
+#include "PlayerCamera.h"
 
 #include <vector>
 #include <time.h>
@@ -33,7 +35,7 @@ void GameLooper::Loop()
 	//Entity<TextureModel> entity(textureRenderObject, glm::vec3(0, 0, -10), 0, 0, 0, 1);
 	AssimpLoader assimpLoader(loader);
 	MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/nanosuit/nanosuit.obj");
-	Entity<MeshesModel> mesh(meshesRenderObject, glm::vec3(0, 0, -2), 0, 0, 0, 0.1f);
+	//Entity<MeshesModel> mesh(meshesRenderObject, glm::vec3(0, 0, -2), 0, 0, 0, 0.1f);
 
 	/*std::vector<BasicRenderModel> dragonObject = assimpLoader.GetBasicModel("3dmodel/dragon/dragon.obj");
 	TextureModel dragonTextureObject(dragonObject[0], loader.LoadTexture("3dmodel/dragon/white.png"));
@@ -41,7 +43,7 @@ void GameLooper::Loop()
 
 	Light light(glm::vec3(0.2f, 1.0f, -1), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
 		CubeShape::Indices, CubeShape::GetIndexLength()));
-	Camera camera(glm::vec3(0, 0, 0));
+	//Camera camera(glm::vec3(0, 1.0f, 0));
 	//MeshesRenderer meshRender(staticShader);
 	std::vector<Entity<TextureModel>> cubes;
 	//cubes.push_back(dragonEntity);
@@ -106,6 +108,11 @@ void GameLooper::Loop()
 	terrains.push_back(Terrain(0, -1, loader, blendMap, pack));
 	terrains.push_back(Terrain(-1, -1, loader, blendMap, pack));
 	/**Terrain End**/
+
+	/**Player Start**/
+	Player<MeshesModel> player(meshesRenderObject, glm::vec3(100, 0, -200), 0, 180.0f, 0, 0.1f);
+	PlayerCamera<MeshesModel> playerCamera(player);
+	/**Player End**/
 	while (!DisplayManager::IsCloseRequested())
 	{
 		//entity.MovePosition(0, 0, -0.01f);
@@ -114,10 +121,11 @@ void GameLooper::Loop()
 		//light.MovePosition(0.01f, 0.0f, 0.01f);
 		for each (Entity<TextureModel> entity in cubes)
 			masterRenderer.ProcessEntity(entity);
-		masterRenderer.ProcessEntity(mesh);
+		masterRenderer.ProcessEntity(player);
+		//masterRenderer.ProcessEntity(mesh);
 		for each (Terrain terrain in terrains)
 			masterRenderer.ProcessTerrian(terrain);
-		masterRenderer.Render(light, camera);
+		masterRenderer.Render(light, playerCamera);
 		//meshRender.Prepare();
 		//meshRender.Render(light, camera, entity);
 		//lightRenderer.Prepare();
@@ -126,7 +134,9 @@ void GameLooper::Loop()
 		/*glClearColor(0.5f, 0.5f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);*/
 		DisplayManager::UpdateDisplay();
-		camera.PlayerMove(DisplayManager::GetDeltaTime());
+		player.PlayerMove(DisplayManager::GetDeltaTime());
+		playerCamera.Move(DisplayManager::GetDeltaTime());
+		//camera.PlayerMove(DisplayManager::GetDeltaTime());
 	}
 	loader.CleanUp();
 	DisplayManager::CloseDisplay();

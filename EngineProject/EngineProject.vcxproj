@@ -136,6 +136,8 @@
     <ClCompile Include="ModelShader.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerCamera.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="StaticShader.cpp" />
@@ -166,6 +168,8 @@
     <ClInclude Include="ModelShader.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="OBJLoader.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerCamera.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="StaticShader.h" />

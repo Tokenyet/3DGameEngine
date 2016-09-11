@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "TerrainTexturePack.h"
 #include "Loader.h"
+#include <bitset>
 
 class Terrain
 {
@@ -15,7 +16,9 @@ public:
 	glm::vec3 GetPosition() { return glm::vec3(0, 0, 0); }
 private:
 	const float SIZE = 800.0f;
-	const int VERTEX_COUNT = 128;
+	//const int VERTEX_COUNT = 128;
+	const float MAX_HEIGHT = 40.0f;
+	const int MAXIMUM_PIXEL_COUNT = 256 * 256 * 256;
 	float x;
 	float z;
 	BasicRenderModel model;
@@ -23,8 +26,9 @@ private:
 	TerrainTexturePack terrainTexturePack;
 	Loader &loader;
 	BasicRenderModel GenerateTerrian();
-	int GetIndicesCount();
-	int GetVertexCount();
+	int GetIndicesCount(int width, int height);
+	int GetVertexCount(int width, int height);
 	int *GenerateTerrianIndices(int widthPoint, int heightPoint);
+	float GetHeight(int x, int z, unsigned char* bits, int channels, int width, int height);
+	glm::vec3 GetNormal(int x, int z, unsigned char* bits, int channels, int width, int height);
 };
-

@@ -69,5 +69,17 @@ public:
 	{
 		Mouse::SetPosition(xpos, ypos);
 	}
+
+	// Set by Display Manager, because Display Manager has window.
+	static void MouseWheelCallback(GLFWwindow* window, double xoffset, double yoffset)
+	{
+		Mouse::SetWheel(xoffset, yoffset);
+	}
+
+	// Set by Display Manager, because Display Manager has window.
+	static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+	{
+		Mouse::SetButton(button, action);
+	}
 };
 #endif

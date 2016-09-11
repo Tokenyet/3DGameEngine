@@ -15,6 +15,7 @@ public:
 	BasicRenderModel LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength, float texCoords[], int texCoordLength);
 	BasicRenderModel LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength, float texCoords[], int texCoordLength, float normals[], int normalLength);
 	Texture LoadTexture(const char* path);
+	unsigned char* LoadCustomImage(const char * path, int &width, int &height, int soilformat = SOIL_LOAD_RGBA);
 	void CleanUp();
 private:
 	// Create a empty vao object

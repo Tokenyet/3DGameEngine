@@ -27,8 +27,13 @@ BasicRenderModel Terrain::GetModel()
 BasicRenderModel Terrain::GenerateTerrian()
 {
 	//glm::vec3 *vertices = new glm::vec3[width * height];
+	int width, height;
+	int format = SOIL_LOAD_RGB;
+	unsigned char *pixels = loader.LoadCustomImage("images/heightmap.png", width, height, format);
+	int VERTEX_COUNT = height;
 	GLfloat *vertices = new GLfloat[VERTEX_COUNT * VERTEX_COUNT * 3];
 	GLfloat *texCoords = new GLfloat[VERTEX_COUNT * VERTEX_COUNT * 2];
+	GLfloat *normals = new GLfloat[VERTEX_COUNT * VERTEX_COUNT * 3];
 	int texCoordLength = VERTEX_COUNT * VERTEX_COUNT * 2;
 	GLfloat xstart = x;
 	GLfloat xend = xstart + SIZE;
@@ -43,8 +48,14 @@ BasicRenderModel Terrain::GenerateTerrian()
 		GLfloat zjump = (GLfloat)(i / VERTEX_COUNT);
 		// float randNum = (float)(rand() % 10) / 100.0f;
 		vertices[i * 3] = xstart + xdis * xjump;
-		vertices[i * 3 + 1] = 0.0f;
+		//vertices[i * 3 + 1] = 0.0f;
+		vertices[i * 3 + 1] = (GLfloat)GetHeight((int)xjump, (int)zjump, pixels, format, width, height);
 		vertices[i * 3 + 2] = zstart + zdis * zjump;
+		glm::vec3 normal = GetNormal((int)xjump, (int)zjump, pixels, format, width, height);
+		normals[i * 3] = normal.x;
+		//vertices[i * 3 + 1] = 0.0f;
+		normals[i * 3 + 1] = normal.y;
+		normals[i * 3 + 2] = normal.z;
 		texCoords[i * 2] = xjump / (float)(VERTEX_COUNT-1);
 		texCoords[i * 2 + 1] = zjump / (float)(VERTEX_COUNT-1);
 		/*vertices[i] = glm::vec3(xstart + xdis * xjump,
@@ -56,13 +67,17 @@ BasicRenderModel Terrain::GenerateTerrian()
 		//Debug::Log((x + "," + y + "," + z).c_str());
 	}
 	int * indices = GenerateTerrianIndices(VERTEX_COUNT, VERTEX_COUNT);
-	vertices, GetVertexCount(), texCoords, indices, GetIndicesCount();
-	return this->loader.LoadRenderModel(vertices, GetVertexCount(), indices, GetIndicesCount(), texCoords, texCoordLength);
+	SOIL_free_image_data(pixels);
+	//vertices, GetVertexCount(VERTEX_COUNT, VERTEX_COUNT), texCoords, indices, GetIndicesCount(VERTEX_COUNT, VERTEX_COUNT);
+	return this->loader.LoadRenderModel(vertices, GetVertexCount(VERTEX_COUNT, VERTEX_COUNT),
+		indices, GetIndicesCount(VERTEX_COUNT, VERTEX_COUNT),
+		texCoords, texCoordLength,
+		normals, GetVertexCount(VERTEX_COUNT, VERTEX_COUNT));
 }
 
 int * Terrain::GenerateTerrianIndices(int widthPoint, int heightPoint)
 {
-	int *indices = new int[GetIndicesCount()];
+	int *indices = new int[GetIndicesCount(widthPoint, heightPoint)];
 	int index = 0;
 	for (int i = 0; i < heightPoint - 1; i++)
 	{
@@ -84,14 +99,41 @@ int * Terrain::GenerateTerrianIndices(int widthPoint, int heightPoint)
 	return indices;
 }
 
-int Terrain::GetIndicesCount()
+int Terrain::GetIndicesCount(int widthVertex, int heightVertex)
 {
 	// width * 2 * (height - 1) + 2 *(height - 2)
-	return VERTEX_COUNT * 2 * (VERTEX_COUNT - 1) + 2 * (VERTEX_COUNT - 2);
+	return widthVertex * 2 * (heightVertex - 1) + 2 * (heightVertex - 2);
 }
 
-int Terrain::GetVertexCount()
+int Terrain::GetVertexCount(int widthVertex, int heightVertex)
 {
 	// width * height * 3
-	return VERTEX_COUNT * VERTEX_COUNT * 3;
+	return widthVertex * heightVertex * 3;
+}
+
+float Terrain::GetHeight(int x, int z, unsigned char* pixels, int channels, int width, int height)
+{
+	unsigned char r = pixels[z * width * channels + x];
+	unsigned char g = pixels[z * width * channels + x + 1];
+	unsigned char b = pixels[z * width * channels + x + 2];
+	int value = r << 16 | g << 8 | b ;
+	float currentPixel = (float)value;
+	currentPixel -= MAXIMUM_PIXEL_COUNT / 2.0f;
+	currentPixel /= MAXIMUM_PIXEL_COUNT / 2.0f;
+	currentPixel *= MAX_HEIGHT;
+	return currentPixel;
+}
+
+glm::vec3 Terrain::GetNormal(int x, int z, unsigned char* bits, int channels, int width, int height)
+{
+	float heightLeft =  GetHeight(x - 1, z, bits, channels, width, height);
+	float heightRight = GetHeight(x + 1, z, bits, channels, width, height);
+	float heightDown = GetHeight(x, z - 1, bits, channels, width, height);
+	float heightUp = GetHeight(x, z + 1, bits, channels, width, height);
+
+	// left point at -x, right point at +x, down point at -z, up point at +z
+	// if left height > right height, feedback unsigned to +x correspond to normal imagination.
+	// if down height > up height, feedback unsigned to +z correspond to normal imagination.
+	// 2.0 because in tangent space up is 1.0 and this algorithm use finite difference by degree 2.
+	return glm::normalize(glm::vec3(heightLeft - heightRight, 2.0f, heightDown - heightUp));
 }

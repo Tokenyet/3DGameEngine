@@ -17,7 +17,7 @@ Camera::~Camera()
 {
 }
 
-void Camera::PlayerMove(float deltaTime)
+void Camera::Move(float deltaTime)
 {
 	// Camera controls
 	GLfloat cameraSpeed = 10.0f * deltaTime;
@@ -39,16 +39,6 @@ void Camera::PlayerMove(float deltaTime)
 glm::mat4 Camera::GetViewMatrix()
 {
 	return glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-}
-
-void Camera::ZoomVision(double yscroll)
-{
-	if (zoom >= 1.0f && zoom <= 45.0f)
-		zoom -= yscroll*0.01;
-	if (zoom <= 1.0f)
-		zoom = 1.0f;
-	if (zoom >= 45.0f)
-		zoom = 45.0f;
 }
 
 void Camera::MoveDirection(double xpos, double ypos)

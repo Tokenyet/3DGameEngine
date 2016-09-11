@@ -62,6 +62,8 @@ void DisplayManager::InitGLFW()
 	glfwSetErrorCallback(Core::ErrorCallback); // hook to core.h
 	glfwSetKeyCallback(window, Core::KeyboardCallback);
 	glfwSetCursorPosCallback(window, Core::MouseCallback);
+	glfwSetScrollCallback(window, Core::MouseWheelCallback);
+	glfwSetMouseButtonCallback(window, Core::MouseButtonCallback);
 	// Options
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }

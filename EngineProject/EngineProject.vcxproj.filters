@@ -41,6 +41,9 @@
     <Filter Include="Terrain">
       <UniqueIdentifier>{13ab4d1c-1aa7-4c51-8342-f0e494ab6133}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{adb5b89c-137e-45dd-a340-dde4b0e67e63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DisplayManager.cpp">
@@ -125,6 +128,10 @@
     <ClCompile Include="TerrainTexturePack.cpp">
       <Filter>Terrain</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisplayManager.h">
@@ -214,6 +221,10 @@
     <ClInclude Include="TerrainTexturePack.h">
       <Filter>Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EngineProject.rc">

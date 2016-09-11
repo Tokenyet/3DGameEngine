@@ -20,6 +20,8 @@
 #include "Mouse.h"
 #include "Keyboard.h"
 
+#include <chrono>
+
 // Ouput Any Message to visual studio output window
 class Debug 
 {
@@ -29,13 +31,34 @@ public:
 		OutputDebugString(string);
 		OutputDebugString("\n");
 	}
+
 	static void Log(std::string str)
 	{
 		OutputDebugString(str.c_str());
 		OutputDebugString("\n");
 	}
-};
 
+	static void StartMeasureNumber(int number)
+	{
+		if (measurements.find(number) == measurements.end())
+			measurements.insert(std::pair<int, std::chrono::time_point<std::chrono::steady_clock>>(number, std::chrono::high_resolution_clock::now()));
+		measurements[number] = std::chrono::high_resolution_clock::now();
+	}
+
+	static void EndMeasureNumber(int number)
+	{
+		if (measurements.find(number) == measurements.end())
+		{
+			Debug::Log("No Start Time");
+			return;
+		}
+		std::chrono::time_point<std::chrono::steady_clock> end = std::chrono::high_resolution_clock::now();
+		long long timer = std::chrono::duration_cast<std::chrono::milliseconds>(end - measurements[number]).count();
+		Debug::Log(std::to_string(timer) + "ms");
+	}
+private:
+	static std::map<int, std::chrono::time_point<std::chrono::steady_clock>> measurements;
+};
 
 // Manage Vertex Attribute Location
 enum VertexAttributeLocationRule
@@ -45,6 +68,8 @@ enum VertexAttributeLocationRule
 	normal = 2,
 };
 
+
+// Any platform need to hook Core's callback to using static Keyboard and Mouse classes.
 class Core 
 {
 public:

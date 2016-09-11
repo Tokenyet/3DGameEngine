@@ -57,7 +57,6 @@ void DisplayManager::InitGLFW()
 		//return -1;
 	}
 	glfwMakeContextCurrent(window);  // set current windows to interact with opengl api 
-
 	// Set GLFW callback functions
 	glfwSetErrorCallback(Core::ErrorCallback); // hook to core.h
 	glfwSetKeyCallback(window, Core::KeyboardCallback);

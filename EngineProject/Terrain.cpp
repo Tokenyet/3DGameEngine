@@ -1,11 +1,21 @@
 #include "Terrain.h"
 
-Terrain::Terrain(int gridX, int gridZ, Loader &loader, Texture blendMap, TerrainTexturePack pack) : loader(loader)
+Terrain::Terrain(int gridX, int gridZ, Loader &loader, Texture blendMap, TerrainTexturePack pack, std::string heightMap) : loader(loader)
 {
 	this->blendMap = blendMap;
 	this->x = gridX * SIZE;
 	this->z = gridZ * SIZE;
-	this->model = GenerateTerrian();
+	this->heightMap = heightMap;
+	if (heightMap != "")
+	{
+		int width, height;
+		int format = SOIL_LOAD_RGB;
+		unsigned char *pixels = loader.LoadCustomImage(heightMap.c_str(), width, height, format);
+		this->model = GenerateTerrian(width, height, pixels);
+		SOIL_free_image_data(pixels);
+	}
+	else
+		this->model = GenerateTerrian();
 	this->terrainTexturePack = pack;
 }
 
@@ -24,9 +34,56 @@ BasicRenderModel Terrain::GetModel()
 	return this->model;
 }
 
+BasicRenderModel Terrain::GenerateTerrian(int width, int height, unsigned char* pixels)
+{
+	GLfloat *vertices = new GLfloat[width * height * 3];
+	GLfloat *texCoords = new GLfloat[width * height * 2];
+	GLfloat *normals = new GLfloat[width * height * 3];
+	int texCoordLength = width * height * 2;
+	GLfloat xstart = x;
+	GLfloat xend = xstart + SIZE;
+	GLfloat zstart = z;
+	GLfloat zend = zstart + SIZE;
+	// because x and z are 0~127, so cut distance to 127 steps.
+	GLfloat xdis = (xend - xstart) / (GLfloat)(width - 1);
+	GLfloat zdis = (zend - zstart) / (GLfloat)(height - 1);
+	for (int i = 0; i < width * height; i++)
+	{
+		GLfloat xjump = (GLfloat)(i % width);
+		GLfloat zjump = (GLfloat)(i / width);
+		vertices[i * 3] = xstart + xdis * xjump;
+		if (pixels != nullptr)
+			vertices[i * 3 + 1] = (GLfloat)GetHeight((int)xjump, (int)zjump, pixels, SOIL_LOAD_RGB, width, height);
+		else
+			vertices[i * 3 + 1] = 0.0f;
+		vertices[i * 3 + 2] = zstart + zdis * zjump;
+		if (pixels != nullptr)
+		{
+			glm::vec3 normal = GetNormal((int)xjump, (int)zjump, pixels, SOIL_LOAD_RGB, width, height);
+			normals[i * 3] = normal.x;
+			normals[i * 3 + 1] = normal.y;
+			normals[i * 3 + 2] = normal.z;
+		}
+		else
+		{
+			normals[i * 3] = 0.0f;
+			normals[i * 3 + 1] = 1.0f;
+			normals[i * 3 + 2] = 0.0f;
+		}
+		texCoords[i * 2] = xjump / (float)(width - 1);
+		texCoords[i * 2 + 1] = zjump / (float)(height - 1);
+	}
+	int * indices = GenerateTerrianIndices(width, height);
+	//vertices, GetVertexCount(VERTEX_COUNT, VERTEX_COUNT), texCoords, indices, GetIndicesCount(VERTEX_COUNT, VERTEX_COUNT);
+	return this->loader.LoadRenderModel(vertices, GetVertexCount(width, height),
+		indices, GetIndicesCount(width, height),
+		texCoords, texCoordLength,
+		normals, GetVertexCount(width, height));
+}
+
+/*
 BasicRenderModel Terrain::GenerateTerrian()
 {
-	//glm::vec3 *vertices = new glm::vec3[width * height];
 	int width, height;
 	int format = SOIL_LOAD_RGB;
 	unsigned char *pixels = loader.LoadCustomImage("images/heightmap.png", width, height, format);
@@ -46,25 +103,15 @@ BasicRenderModel Terrain::GenerateTerrian()
 	{
 		GLfloat xjump = (GLfloat)(i % VERTEX_COUNT);
 		GLfloat zjump = (GLfloat)(i / VERTEX_COUNT);
-		// float randNum = (float)(rand() % 10) / 100.0f;
 		vertices[i * 3] = xstart + xdis * xjump;
-		//vertices[i * 3 + 1] = 0.0f;
 		vertices[i * 3 + 1] = (GLfloat)GetHeight((int)xjump, (int)zjump, pixels, format, width, height);
 		vertices[i * 3 + 2] = zstart + zdis * zjump;
 		glm::vec3 normal = GetNormal((int)xjump, (int)zjump, pixels, format, width, height);
 		normals[i * 3] = normal.x;
-		//vertices[i * 3 + 1] = 0.0f;
 		normals[i * 3 + 1] = normal.y;
 		normals[i * 3 + 2] = normal.z;
 		texCoords[i * 2] = xjump / (float)(VERTEX_COUNT-1);
 		texCoords[i * 2 + 1] = zjump / (float)(VERTEX_COUNT-1);
-		/*vertices[i] = glm::vec3(xstart + xdis * xjump,
-		0.0f,
-		zstart + zdis * zjump);*/
-		//std::string x = std::to_string(vertices[i].x);
-		//std::string y = std::to_string(vertices[i].y);
-		//std::string z = std::to_string(vertices[i].z);
-		//Debug::Log((x + "," + y + "," + z).c_str());
 	}
 	int * indices = GenerateTerrianIndices(VERTEX_COUNT, VERTEX_COUNT);
 	SOIL_free_image_data(pixels);
@@ -73,7 +120,7 @@ BasicRenderModel Terrain::GenerateTerrian()
 		indices, GetIndicesCount(VERTEX_COUNT, VERTEX_COUNT),
 		texCoords, texCoordLength,
 		normals, GetVertexCount(VERTEX_COUNT, VERTEX_COUNT));
-}
+}*/
 
 int * Terrain::GenerateTerrianIndices(int widthPoint, int heightPoint)
 {

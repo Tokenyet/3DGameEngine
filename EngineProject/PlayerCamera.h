@@ -8,12 +8,14 @@ template <class T>
 class PlayerCamera : public Camera
 {
 public:
+	// The template of player camera isn't care, but need to give it as player's template type.
 	PlayerCamera(Player<T> &player): Camera(glm::vec3(0, 0, 0)) ,player(player)
 	{
 		pitch = 20.0f;
 		yaw = 0.0f;
 	}
 
+	// Move Camera Around Player
 	void Move(float deltaTime) 
 	{
 		float zoom = (float)Mouse::GetDeltaWheel() * 0.5f;
@@ -32,7 +34,9 @@ public:
 private:
 	float distanceFromPlayer = 20.0f;
 	Player<T> &player;
+	// Up and down using left button.
 	void MovePitch();
+	// Left and right using right button.
 	void MoveYaw();
 };
 

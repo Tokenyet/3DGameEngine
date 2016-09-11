@@ -9,10 +9,15 @@ class Camera
 public:
 	Camera(glm::vec3 pos);
 	~Camera();
+	// Move Camera in spectator mode.
 	virtual void Move(float deltaTime);
+	// Must need it.
 	glm::mat4 GetViewMatrix();
+	// For calculating specular
 	glm::vec3 GetCameraPosition(){ return cameraPos; }
+	// Some other using.
 	glm::vec3 GetCameraFront() { return cameraFront; }
+	// No using now.
 	float GetCameraZoom() { return (float)zoom; }
 protected:
 	glm::vec3 cameraPos = glm::vec3(0.0f, 1.0f, 3.0f);
@@ -22,6 +27,7 @@ protected:
 	float pitch = -45.0f;
 	double zoom;
 private:
+	// maybe need to remove this, bcz Mouse class is pretty now.
 	bool avoidInitCameraException;
 	float sensitivity = 0.05f;
 	float lastX = 400, lastY = 300;

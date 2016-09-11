@@ -9,7 +9,7 @@
 class Terrain
 {
 public:
-	Terrain(int gridX, int gridZ, Loader &loader, Texture blendMap, TerrainTexturePack pack);
+	Terrain(int gridX, int gridZ, Loader &loader, Texture blendMap, TerrainTexturePack pack, std::string heightMap = "");
 	Texture GetBlendMap();
 	TerrainTexturePack GetTerrainTexturePack();
 	BasicRenderModel GetModel();
@@ -21,11 +21,13 @@ private:
 	const int MAXIMUM_PIXEL_COUNT = 256 * 256 * 256;
 	float x;
 	float z;
+	std::string heightMap;
 	BasicRenderModel model;
 	Texture blendMap;
 	TerrainTexturePack terrainTexturePack;
 	Loader &loader;
-	BasicRenderModel GenerateTerrian();
+	//BasicRenderModel GenerateTerrian();
+	BasicRenderModel GenerateTerrian(int width = 128 , int height = 128 , unsigned char* pixels = nullptr);
 	int GetIndicesCount(int width, int height);
 	int GetVertexCount(int width, int height);
 	int *GenerateTerrianIndices(int widthPoint, int heightPoint);

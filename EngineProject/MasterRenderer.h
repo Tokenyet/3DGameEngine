@@ -25,7 +25,7 @@ public:
 	void ProcessEntity(Entity<TextureModel> entity);
 	void ProcessEntity(Entity<MeshesModel> entity);
 	void ProcessEntity(Entity<BasicRenderModel> entity);
-	void ProcessTerrian(Terrain entity);
+	void ProcessTerrian(Terrain* entity);
 	static void EnableCulling();
 	static void DisableCulling();
 private:
@@ -41,7 +41,7 @@ private:
 	std::vector<Light> lights;
 	LightSourceRenderer *lightRenderer;
 	TerrainShader terrainShader;
-	std::vector<Terrain> terrains;
+	std::vector<Terrain*> terrains;
 	TerrainRenderer *terrainRenderer;
 	glm::mat4 projectionMatrix;
 	const float FOV = 45.0f;

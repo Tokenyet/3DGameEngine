@@ -107,4 +107,25 @@ public:
 		Mouse::SetButton(button, action);
 	}
 };
+
+
+class CustomMath 
+{
+public:
+	static void Barycentric(glm::vec2 p, glm::vec2 a, glm::vec2 b, glm::vec2 c, float &u, float &v, float &w)
+	{
+		glm::vec2 v0 = b - a;
+		glm::vec2 v1 = c - a;
+		glm::vec2 v2 = p - a;
+		float d00 = glm::dot(v0, v0);
+		float d01 = glm::dot(v0, v1);
+		float d11 = glm::dot(v1, v1);
+		float d20 = glm::dot(v2, v0);
+		float d21 = glm::dot(v2, v1);
+		float invDenom = 1.0f / (d00 * d11 - d01 * d01);
+		v = (d11 * d20 - d01 * d21) * invDenom;
+		w = (d00 * d21 - d01 * d20) * invDenom;
+		u = 1.0f - v - w;
+	}
+};
 #endif

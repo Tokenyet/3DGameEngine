@@ -118,6 +118,20 @@ void StaticShader::SetSkyColor(glm::vec3 color)
 	glUniform3fv(loc, 1, glm::value_ptr(color));
 }
 
+void StaticShader::SetAtlasesSize(float row)
+{
+	int loc = GetUniformLocation("atlasesSize");
+	if (loc == -1) Debug::Log("Atlases Size Setting Fail.");
+	glUniform1f(loc, row);
+}
+
+void StaticShader::SetAtlasesOffset(glm::vec2 offset)
+{
+	int loc = GetUniformLocation("atlasesOffset");
+	if (loc == -1) Debug::Log("Atlases Offset Setting Fail.");
+	glUniform2fv(loc, 1, glm::value_ptr(offset));
+}
+
 void StaticShader::ClearRelativeData()
 {
 	diffuseCount = 0;

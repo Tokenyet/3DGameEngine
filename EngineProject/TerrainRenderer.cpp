@@ -12,14 +12,14 @@ TerrainRenderer::~TerrainRenderer()
 {
 }
 
-void TerrainRenderer::Render(std::vector<Terrain> terrains)
+void TerrainRenderer::Render(std::vector<Terrain*> terrains)
 {
-	for each (Terrain terrain in terrains)
+	for each (Terrain* terrain in terrains)
 	{
-		PrepareTextureModel(terrain.GetBlendMap(), terrain.GetTerrainTexturePack());
+		PrepareTextureModel(terrain->GetBlendMap(), terrain->GetTerrainTexturePack());
 		PrepareInstance(terrain);
-		glBindVertexArray(terrain.GetModel().GetVaoID());
-		glDrawElements(GL_TRIANGLE_STRIP, terrain.GetModel().GetVertexCount(), GL_UNSIGNED_INT, 0);
+		glBindVertexArray(terrain->GetModel().GetVaoID());
+		glDrawElements(GL_TRIANGLE_STRIP, terrain->GetModel().GetVertexCount(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 		UnbindTextureModel();
 	}
@@ -39,10 +39,10 @@ void TerrainRenderer::UnbindTextureModel()
 	shader.ClearRelativeData();
 }
 
-void TerrainRenderer::PrepareInstance(Terrain terrain)
+void TerrainRenderer::PrepareInstance(Terrain* terrain)
 {
 	glm::mat4 modelMatrix;
-	modelMatrix = glm::translate(modelMatrix, terrain.GetPosition());
+	modelMatrix = glm::translate(modelMatrix, terrain->GetPosition());
 	modelMatrix = glm::scale(modelMatrix, glm::vec3(1.0f));
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(0.0f), glm::vec3(1, 0, 0));
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(0.0f), glm::vec3(0, 1, 0));

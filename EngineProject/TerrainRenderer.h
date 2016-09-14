@@ -10,13 +10,13 @@ class TerrainRenderer
 public:
 	TerrainRenderer(TerrainShader &shader, glm::mat4 projectionMatrix);
 	~TerrainRenderer();
-	void Render(std::vector<Terrain> terrians);
+	void Render(std::vector<Terrain*> terrians);
 private:
 	TerrainShader &shader;
 	glm::mat4 projectionMatrix;
 	void PrepareTextureModel(Texture blendMap, TerrainTexturePack pack);
 	void UnbindTextureModel();
-	void PrepareInstance(Terrain terrain);
+	void PrepareInstance(Terrain* terrain);
 };
 
 

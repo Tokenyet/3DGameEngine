@@ -85,7 +85,7 @@ void MasterRenderer::ProcessEntity(Entity<BasicRenderModel> entity)
 	basicEntities.push_back(entity);
 }
 
-void MasterRenderer::ProcessTerrian(Terrain terrain)
+void MasterRenderer::ProcessTerrian(Terrain* terrain)
 {
 	terrains.push_back(terrain);
 }

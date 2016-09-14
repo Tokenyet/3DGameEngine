@@ -20,6 +20,8 @@ public:
 	void SetProjectionMatrix(glm::mat4 projectionMatrix);
 	void SetFakeLighting(bool enable = false);
 	void SetSkyColor(glm::vec3 color);
+	void SetAtlasesSize(float row = 1.0f);
+	void SetAtlasesOffset(glm::vec2 offset = glm::vec2(0.0f));
 	virtual void ClearRelativeData();
 	~StaticShader();
 protected:

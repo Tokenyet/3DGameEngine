@@ -17,7 +17,7 @@ public:
 private:
 	StaticShader &shader;
 	glm::mat4 projectionMatrix;
-	void PrepareTextureModel(TextureModel model);
+	void PrepareTextureModel(TextureModel model, glm::vec2 atlasesOffset = glm::vec2(0.0f));
 	void UnbindTextureModel();
 	void PrepareInstance(Entity<TextureModel> entity);
 };

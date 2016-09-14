@@ -58,7 +58,7 @@ void Renderer::Render(std::map<TextureModel, std::vector<Entity<TextureModel>>> 
 	}
 }
 
-void Renderer::PrepareTextureModel(TextureModel model)
+void Renderer::PrepareTextureModel(TextureModel model, glm::vec2 atlasesOffset)
 {
 	TextureModel textureRenderObject = model;
 	BasicRenderModel renderObject = textureRenderObject.GetBasicRenderModel();
@@ -69,6 +69,7 @@ void Renderer::PrepareTextureModel(TextureModel model)
 	shader.SetFakeLighting(texture.GetFakeLighting());
 	shader.SetSpecular(glm::vec3(0.5f));
 	shader.SetShininess();
+	shader.SetAtlasesSize((float)texture.GetTextureRowAtlaseCount());
 }
 
 void Renderer::UnbindTextureModel()
@@ -86,4 +87,5 @@ void Renderer::PrepareInstance(Entity<TextureModel> entity)
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(entity.GetRotationY()), glm::vec3(0, 1, 0));
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(entity.GetRotationZ()), glm::vec3(0, 0, 1));
 	shader.SetModelMatrix(modelMatrix);
+	shader.SetAtlasesOffset(entity.GetTextureOffset());
 }

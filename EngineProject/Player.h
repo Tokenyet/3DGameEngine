@@ -1,4 +1,5 @@
 #pragma once
+#include "Terrain.h"
 #include "Entity.h"
 template< class T>
 class Player :
@@ -7,13 +8,12 @@ class Player :
 public:
 	Player() {}
 	Player(T model, glm::vec3 position, float rx, float ry, float rz, float scale);
-	void PlayerMove(float deltaTime);
+	void PlayerMove(Terrain* terrain, float deltaTime);
 private:
 	const float RUN_SPEED = 5.0f;
 	const float TURN_SPEED = 160.0f;
 	const float GRAVITY = -50.0f;
 	const float JUMP_POWER = 10.0f;
-	const float TERRAIN_HEIGHT = 0.0f;
 	float currentSpeed;
 	float currentTurnSpeed;
 	float jumpSpeed;
@@ -28,7 +28,7 @@ Player<T>::Player(T model, glm::vec3 position, float rx, float ry, float rz, flo
 	:Entity<T>(model, position, rx, ry, rz, scale) {}
 
 template<class T>
-void Player<T>::PlayerMove(float deltaTime)
+void Player<T>::PlayerMove(Terrain* terrain, float deltaTime)
 {
 	CheckUserInputs();
 	float distance = currentSpeed * deltaTime;
@@ -38,9 +38,10 @@ void Player<T>::PlayerMove(float deltaTime)
 	this->MoveRotation(0.0f, currentTurnSpeed * deltaTime, 0.0f);	
 	this->jumpSpeed += GRAVITY * deltaTime;
 	this->MovePosition(0.0f, this->jumpSpeed * deltaTime, 0.0f);
-	if (this->GetPosition().y < TERRAIN_HEIGHT)
+	float terrainHeight = terrain->GetHeightByPosition(this->GetPosition().x, this->GetPosition().z);
+	if (this->GetPosition().y < terrainHeight)
 	{
-		this->MovePosition(0.0f, TERRAIN_HEIGHT - this->GetPosition().y, 0.0f);
+		this->MovePosition(0.0f, terrainHeight - this->GetPosition().y, 0.0f);
 		airState = false;
 	}
 }

@@ -69,14 +69,27 @@ void GameLooper::Loop()
 	Light light(glm::vec3(0.2f, 1.0f, -1), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
 		CubeShape::Indices, CubeShape::GetIndexLength()));
 
+	/** Terrain Start **/
+	std::vector<Terrain*> terrains;
+	Texture background = loader.LoadTexture("images/grass_green_d.jpg");
+	Texture rTexture = loader.LoadTexture("images/grass_autumn_orn_d.jpg");
+	Texture gTexture = loader.LoadTexture("images/adesert_stone_d.jpg");
+	Texture bTexture = loader.LoadTexture("images/island_sand_d.jpg");
+	Texture blendMap = loader.LoadTexture("images/blendMap.png");
+	TerrainTexturePack pack(background, rTexture, gTexture, bTexture);
+
+	terrains.push_back(new Terrain(0, -1, loader, blendMap, pack, "images/heightmap.png"));
+	terrains.push_back(new Terrain(-1, -1, loader, blendMap, pack));
+	/** Terrain End **/
+
 	/* 200 Tree Objects */
 	std::vector<BasicRenderModel> treeObject = assimpLoader.GetBasicModel("3dmodel/tree/tree.obj");
 	TextureModel treeTextureObject(treeObject[0], loader.LoadTexture("3dmodel/tree/tree.png"));
 	for (int i = 0; i < 300; i++)
 	{
 		float x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * 800.0f - 400.0f;
-		float y = 0;
 		float z = static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * -800.0f;
+		float y = terrains[0]->GetHeightByPosition(x, z);
 		cubes.push_back(Entity<TextureModel>(treeTextureObject, glm::vec3(x, y, z),
 			0.0f, 0.0f,
 			0.0f, 2.0f));
@@ -89,35 +102,25 @@ void GameLooper::Loop()
 	grassTexture.SetFakeLighting(true);
 	TextureModel grassTex(grass[0], grassTexture);
 	std::vector<BasicRenderModel> fern = assimpLoader.GetBasicModel("3dmodel/grass/fern.obj");
-	Texture fernTexture = loader.LoadTexture("3dmodel/grass/fern.png");
+	Texture fernTexture = loader.LoadTexture("3dmodel/grass/fern-atl.png");
+	int fernAtlasesRow = 2;
+	fernTexture.SetTextureRowAtlaseCount(fernAtlasesRow);
 	fernTexture.SetTransparent(true);
 	fernTexture.SetFakeLighting(true);
 	TextureModel fernTex(fern[0], fernTexture);
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 1000; i++)
 	{
 		float x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * 800.0f - 400.0f;
-		float y = 0;
 		float z = static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * -400.0f -10.0f;
+		float y = terrains[0]->GetHeightByPosition(x, z);
 		Entity<TextureModel> grassEntity(grassTex, glm::vec3(x, y, z), 0, 0, 0, 1.0f);
 		x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * 800.0f - 400.0f;
 		z = static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * -400.0f;
-		Entity<TextureModel> fernEntity(fernTex, glm::vec3(x, y, z), 0, 0, 0, 1.0f);
+		y = terrains[0]->GetHeightByPosition(x, z);
+		Entity<TextureModel> fernEntity(fernTex, glm::vec3(x, y, z), 0, 0, 0, 1.0f, rand() % (fernAtlasesRow * fernAtlasesRow));
 		cubes.push_back(grassEntity);
 		cubes.push_back(fernEntity);
 	}
-
-	/** Terrain Start **/
-	std::vector<Terrain> terrains;
-	Texture background = loader.LoadTexture("images/grass_green_d.jpg");
-	Texture rTexture = loader.LoadTexture("images/grass_autumn_orn_d.jpg");
-	Texture gTexture = loader.LoadTexture("images/adesert_stone_d.jpg");
-	Texture bTexture = loader.LoadTexture("images/island_sand_d.jpg");
-	Texture blendMap = loader.LoadTexture("images/blendMap.png");
-	TerrainTexturePack pack(background, rTexture, gTexture, bTexture);
-
-	terrains.push_back(Terrain(0, -1, loader, blendMap, pack, "images/heightmap.png"));
-	terrains.push_back(Terrain(-1, -1, loader, blendMap, pack));
-	/** Terrain End **/
 
 	while (!DisplayManager::IsCloseRequested())
 	{
@@ -126,13 +129,15 @@ void GameLooper::Loop()
 		for each (Entity<TextureModel> entity in cubes)
 			masterRenderer.ProcessEntity(entity);
 		masterRenderer.ProcessEntity(player);
-		for each (Terrain terrain in terrains)
+		for each (Terrain *terrain in terrains)
 			masterRenderer.ProcessTerrian(terrain);
 		masterRenderer.Render(light, playerCamera);
 		DisplayManager::UpdateDisplay();
-		player.PlayerMove(DisplayManager::GetDeltaTime());
+		player.PlayerMove(terrains[0] ,DisplayManager::GetDeltaTime());
 		playerCamera.Move(DisplayManager::GetDeltaTime());
 	}
 	loader.CleanUp();
+	/*for each (Terrain *terrain in terrains)
+		delete terrain;*/
 	DisplayManager::CloseDisplay();
 }

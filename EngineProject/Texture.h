@@ -7,6 +7,7 @@ public:
 	Texture(GLuint tid)
 	{
 		this->id = tid;
+		this->rowAtlaseCount = 1;
 	}
 
 	bool operator<(Texture const& tex) const
@@ -22,6 +23,7 @@ public:
 		this->id = tex.id;
 		this->transparent = tex.transparent;
 		this->fakeLighting = tex.fakeLighting;
+		this->rowAtlaseCount = tex.rowAtlaseCount;
 	}
 
 	bool operator==(Texture const& tex)
@@ -39,6 +41,11 @@ public:
 		fakeLighting = enable;
 	}
 
+	void SetTextureRowAtlaseCount(int count)
+	{
+		this->rowAtlaseCount = count;
+	}
+
 	bool GetTransparent()
 	{
 		return transparent;
@@ -53,8 +60,14 @@ public:
 	{
 		return id;
 	}
+
+	int GetTextureRowAtlaseCount()
+	{
+		return rowAtlaseCount;
+	}
 private:
 	GLuint id;
+	int rowAtlaseCount = 1;
 	bool fakeLighting = false;
 	bool transparent = false;
 };

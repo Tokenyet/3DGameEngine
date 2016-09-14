@@ -19,6 +19,12 @@ Terrain::Terrain(int gridX, int gridZ, Loader &loader, Texture blendMap, Terrain
 	this->terrainTexturePack = pack;
 }
 
+Terrain::~Terrain()
+{
+	if(heightsOfTerrian != nullptr)
+		delete heightsOfTerrian;
+}
+
 Texture Terrain::GetBlendMap()
 {
 	return this->blendMap;
@@ -34,8 +40,40 @@ BasicRenderModel Terrain::GetModel()
 	return this->model;
 }
 
+float Terrain::GetHeightByPosition(float testX, float testZ)
+{
+	float xInTerrain = testX - this->x;
+	float zInTerrain = testZ - this->z;
+	float gridWidth = SIZE / (this->widthVertexCount - 1);
+	float gridHeight = SIZE / (this->heightVertexCount - 1);
+	int gridX = (int)glm::floor(xInTerrain / gridWidth);
+	int gridZ = (int)glm::floor(zInTerrain / gridHeight);
+	if (gridX > this->widthVertexCount - 1 || gridZ > this->heightVertexCount - 1 || gridX < 0 || gridZ < 0)
+		return 0;
+	float xCoord = (xInTerrain - (int)(xInTerrain / gridWidth) * gridWidth) / gridWidth;
+	float zCoord = (zInTerrain - (int)(zInTerrain / gridHeight) * gridHeight) / gridHeight;
+	float u, v, w, answer;
+	glm::vec3 topLeft = glm::vec3(0, heightsOfTerrian[gridX + gridZ * widthVertexCount], 0);
+	glm::vec3 topRight = glm::vec3(1, heightsOfTerrian[gridX + 1 + gridZ * widthVertexCount], 0);
+	glm::vec3 bottomLeft = glm::vec3(0, heightsOfTerrian[gridX + (gridZ + 1) * widthVertexCount], 1);
+	glm::vec3 bottomRight = glm::vec3(1, heightsOfTerrian[gridX + 1 + (gridZ + 1) * widthVertexCount], 1);
+	if (xCoord < 1.0 - zCoord)
+	{
+		CustomMath::Barycentric(glm::vec2(xCoord, zCoord), glm::vec2(topLeft.x, topLeft.z), glm::vec2(topRight.x, topRight.z), glm::vec2(bottomLeft.x, bottomRight.z), u, v, w);
+		answer = topLeft.y * u + topRight.y * v + bottomLeft.y * w;
+	}
+	else
+	{
+		CustomMath::Barycentric(glm::vec2(xCoord, zCoord), glm::vec2(topRight.x, topRight.z), glm::vec2(bottomLeft.x, bottomLeft.z), glm::vec2(bottomRight.x, bottomRight.z), u, v, w);
+		answer = topRight.y * u + bottomLeft.y * v + bottomRight.y * w;
+	}
+	return answer;
+}
+
 BasicRenderModel Terrain::GenerateTerrian(int width, int height, unsigned char* pixels)
 {
+	this->widthVertexCount = width;
+	this->heightVertexCount = height;
 	GLfloat *vertices = new GLfloat[width * height * 3];
 	GLfloat *texCoords = new GLfloat[width * height * 2];
 	GLfloat *normals = new GLfloat[width * height * 3];
@@ -47,6 +85,7 @@ BasicRenderModel Terrain::GenerateTerrian(int width, int height, unsigned char* 
 	// because x and z are 0~127, so cut distance to 127 steps.
 	GLfloat xdis = (xend - xstart) / (GLfloat)(width - 1);
 	GLfloat zdis = (zend - zstart) / (GLfloat)(height - 1);
+	heightsOfTerrian = new float[width * height];
 	for (int i = 0; i < width * height; i++)
 	{
 		GLfloat xjump = (GLfloat)(i % width);
@@ -56,6 +95,7 @@ BasicRenderModel Terrain::GenerateTerrian(int width, int height, unsigned char* 
 			vertices[i * 3 + 1] = (GLfloat)GetHeight((int)xjump, (int)zjump, pixels, SOIL_LOAD_RGB, width, height);
 		else
 			vertices[i * 3 + 1] = 0.0f;
+		heightsOfTerrian[i] = vertices[i * 3 + 1];
 		vertices[i * 3 + 2] = zstart + zdis * zjump;
 		if (pixels != nullptr)
 		{
@@ -160,6 +200,8 @@ int Terrain::GetVertexCount(int widthVertex, int heightVertex)
 
 float Terrain::GetHeight(int x, int z, unsigned char* pixels, int channels, int width, int height)
 {
+	if (z < 0 || x < 0)
+		return 0.0f;
 	unsigned char r = pixels[z * width * channels + x];
 	unsigned char g = pixels[z * width * channels + x + 1];
 	unsigned char b = pixels[z * width * channels + x + 2];

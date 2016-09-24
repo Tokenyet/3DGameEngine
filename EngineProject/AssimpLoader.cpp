@@ -4,7 +4,7 @@ AssimpLoader::AssimpLoader(Loader & loader) : loader(loader)
 {
 }
 
-MeshesModel AssimpLoader::GetMeshesModel(std::string path)
+MeshesModel AssimpLoader::GetMeshesModel(std::string path, bool rightHandSide)
 {
 	std::vector<MeshModel> meshes;
 	Assimp::Importer import;
@@ -16,7 +16,7 @@ MeshesModel AssimpLoader::GetMeshesModel(std::string path)
 		throw "no model error";
 	}
 	this->directory = path.substr(0, path.find_last_of('/'));
-
+	this->rightHandSide = rightHandSide;
 	this->ProcessNode(scene->mRootNode, scene, meshes);
 	this->texturesLoaded.clear();
 	return MeshesModel(meshes);
@@ -186,6 +186,8 @@ MeshModel AssimpLoader::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 
 	glm::mat4 globalInverseTransform = glm::make_mat4<float>(scene->mRootNode->mTransformation[0]);
 	globalInverseTransform = glm::inverse(glm::transpose(globalInverseTransform));
+	if (this->rightHandSide)
+		globalInverseTransform = glm::mat4(TRANSFORM_TO_LEFT_HAND_SIDE) * globalInverseTransform;
 	LoadBoneBasicTransform(scene->mAnimations[0], nullptr, scene->mRootNode, boneMaps);
 	LoadBoneAnimation(scene, boneMaps);
 

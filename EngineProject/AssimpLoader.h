@@ -14,7 +14,7 @@ class AssimpLoader
 {
 public:
 	AssimpLoader(Loader &loader);
-	MeshesModel GetMeshesModel(std::string path);
+	MeshesModel GetMeshesModel(std::string path, bool rightHandSide = false);
 	// if model checked by human is one object
 	std::vector<BasicRenderModel> GetBasicModel(std::string path);
 	~AssimpLoader();
@@ -28,6 +28,10 @@ private:
 	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 	std::string directory;
 	std::vector<aiString> texturesLoaded;
+
+	// right hand side
+	bool rightHandSide = false;
+	glm::mat3 TRANSFORM_TO_LEFT_HAND_SIDE = glm::mat3(glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	// bone
 	void LoadBoneAnimation(const aiScene* scene, std::map<std::string, Bone*>& boneMap);

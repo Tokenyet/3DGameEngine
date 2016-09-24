@@ -58,7 +58,7 @@ void GameLooper::Loop()
 
 	// MeshesModel represent a mesh collection for a model.
 	//MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/nanosuit/nanosuit.obj");
-	MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/mycharacter/mycharacter.dae");
+	MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/mycharacter/mycharacter.dae", true);
 	/** Player Start **/
 	// Suit a player model for MeshesModel, just like normal Entity using.
 	Player<MeshesModel> player(meshesRenderObject, glm::vec3(100, 0, -200), 0, 180.0f, 0, 0.1f);

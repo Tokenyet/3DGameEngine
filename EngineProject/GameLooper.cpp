@@ -57,7 +57,8 @@ void GameLooper::Loop()
 	AssimpLoader assimpLoader(loader);
 
 	// MeshesModel represent a mesh collection for a model.
-	MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/nanosuit/nanosuit.obj");
+	//MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/nanosuit/nanosuit.obj");
+	MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/mycharacter/mycharacter.dae");
 	/** Player Start **/
 	// Suit a player model for MeshesModel, just like normal Entity using.
 	Player<MeshesModel> player(meshesRenderObject, glm::vec3(100, 0, -200), 0, 180.0f, 0, 0.1f);
@@ -108,7 +109,7 @@ void GameLooper::Loop()
 	fernTexture.SetTransparent(true);
 	fernTexture.SetFakeLighting(true);
 	TextureModel fernTex(fern[0], fernTexture);
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		float x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * 800.0f - 400.0f;
 		float z = static_cast <float> (rand()) / static_cast <float> (RAND_MAX) * -400.0f -10.0f;

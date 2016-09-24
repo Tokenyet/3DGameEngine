@@ -193,6 +193,8 @@
     <None Include="shader\basic.vert" />
     <None Include="shader\lightSource.frag" />
     <None Include="shader\lightSource.vert" />
+    <None Include="shader\mesh-nobone.frag" />
+    <None Include="shader\mesh-nobone.vert" />
     <None Include="shader\mesh.frag" />
     <None Include="shader\mesh.vert" />
     <None Include="shader\terrian.frag" />

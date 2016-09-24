@@ -53,6 +53,54 @@ BasicRenderModel Loader::LoadRenderModel(float position[], int pdataLength, int 
 	return BasicRenderModel(vaoID, indexLength);
 }
 
+BasicRenderModel Loader::LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength, float texCoords[], int texCoordLength, float normals[], int normalLength, float boneID[], float boneWeight[], int boneLength)
+{
+	GLuint vaoID = CreateVAO();
+	BindVAO(vaoID);
+	BindVertexAttribute(VertexAttributeLocationRule::position, 3, position, pdataLength);
+	BindVertexAttribute(VertexAttributeLocationRule::texCoord, 2, texCoords, texCoordLength);
+	BindVertexAttribute(VertexAttributeLocationRule::normal, 3, normals, normalLength);
+	int boneDimension = (int)((float)boneLength / (float)pdataLength * 3);
+	BindVertexAttribute(VertexAttributeLocationRule::boneID, boneDimension, boneID, boneLength);
+	BindVertexAttribute(VertexAttributeLocationRule::boneWeight, boneDimension, boneWeight, boneLength);
+	BindIndices(indices, indexLength);
+	UnbindVAO();
+	return BasicRenderModel(vaoID, indexLength);
+}
+
+BasicRenderModel Loader::LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength, float texCoords[], int texCoordLength, float normals[], int normalLength, int boneID[], float boneWeight[], int boneLength)
+{
+	GLuint vaoID = CreateVAO();
+	BindVAO(vaoID);
+	BindVertexAttribute(VertexAttributeLocationRule::position, 3, position, pdataLength);
+	BindVertexAttribute(VertexAttributeLocationRule::texCoord, 2, texCoords, texCoordLength);
+	BindVertexAttribute(VertexAttributeLocationRule::normal, 3, normals, normalLength);
+	int boneDimension = (int)((float)boneLength / (float)pdataLength * 3);
+
+	GLuint vboID;
+	glGenBuffers(1, &vboID);
+	vbos.push_back(vboID);
+	glBindBuffer(GL_ARRAY_BUFFER, vboID);
+	glBufferData(GL_ARRAY_BUFFER, boneLength * sizeof(GLint), boneID, GL_STATIC_DRAW);
+	// Mother fucker!??!?!?
+	glVertexAttribIPointer(VertexAttributeLocationRule::boneID, boneDimension, GL_INT, boneDimension * sizeof(GLint), (GLvoid*)0);
+	glEnableVertexAttribArray(VertexAttributeLocationRule::boneID);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	/*glGenBuffers(1, &vboID);
+	vbos.push_back(vboID);
+	glBindBuffer(GL_ARRAY_BUFFER, vboID);
+	glBufferData(GL_ARRAY_BUFFER, boneLength * sizeof(GLfloat), boneWeight, GL_STATIC_DRAW);
+	glVertexAttribPointer(VertexAttributeLocationRule::boneWeight, boneDimension, GL_FLOAT, GL_FALSE, boneDimension * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(VertexAttributeLocationRule::boneWeight);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);*/
+
+	BindVertexAttribute(VertexAttributeLocationRule::boneWeight, boneDimension, boneWeight, boneLength);
+	BindIndices(indices, indexLength);
+	UnbindVAO();
+	return BasicRenderModel(vaoID, indexLength);
+}
+
 Texture Loader::LoadTexture(const char * path)
 {
 	GLuint texture;

@@ -38,6 +38,21 @@ public:
 		OutputDebugString("\n");
 	}
 
+	static void Log(glm::mat4 matrix)
+	{
+		float *fmatrix = glm::value_ptr(matrix);
+		Debug::Log("Matrix:");
+		std::string s;
+		for (int i = 0; i < 16; i++)
+		{
+			s += std::to_string(fmatrix[i]) + ",";
+			if ((i + 1) % 4 == 0)
+				s += "\r\n";
+		}
+		s += "\r\n";
+		Debug::Log(s);
+	}
+
 	static void StartMeasureNumber(int number)
 	{
 		if (measurements.find(number) == measurements.end())
@@ -66,6 +81,8 @@ enum VertexAttributeLocationRule
 	position = 0,
 	texCoord = 1,
 	normal = 2,
+	boneID = 5,
+	boneWeight = 6,
 };
 
 

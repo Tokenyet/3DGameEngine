@@ -2,16 +2,44 @@
 
 ShaderProgram::ShaderProgram(const char *vertex_path, const char *fragment_path)
 {
-	this->program = LoadShader(vertex_path, fragment_path, nullptr, nullptr, nullptr);
-	ListAllAttributes(); //debug using 
-	ListAllUniforms();
+	this->vertexPath = vertex_path;
+	this->fragPath = fragment_path;
+	this->tcsPath = "";
+	this->tesPath = "";
+	this->geoPath = "";
+	//this->program = LoadShader(vertex_path, fragment_path, nullptr, nullptr, nullptr);
 }
 
 
 ShaderProgram::ShaderProgram(const char *vertex_path, const char *fragment_path,
 	const char *tcs_path = nullptr, const char *tes_path = nullptr, const char *geo_path = nullptr) 
 {
-	this->program = LoadShader(vertex_path, fragment_path, tcs_path, tes_path, geo_path);
+	this->vertexPath = vertex_path;
+	this->fragPath = fragment_path;
+	if (tcs_path == nullptr)
+		this->tcsPath = "";
+	else
+		this->tcsPath = tcs_path;
+	if (tes_path == nullptr)
+		this->tesPath = "";
+	else
+		this->tesPath = tes_path;
+	if (geo_path == nullptr)
+		this->geoPath = "";
+	else
+		this->geoPath = geo_path;
+	//this->program = LoadShader(vertex_path, fragment_path, tcs_path, tes_path, geo_path);
+}
+
+void ShaderProgram::Init()
+{
+	//http://gamedev.stackexchange.com/questions/58095/does-glbindattriblocation-silently-ignore-names-not-found-in-a-shader
+	this->program = LoadShader(this->vertexPath.c_str(), this->fragPath.c_str(),
+		this->tcsPath == "" ? nullptr: this->tcsPath.c_str(),
+		this->tesPath == "" ? nullptr: this->tesPath.c_str(),
+		this->geoPath == "" ? nullptr: this->geoPath.c_str());
+	ListAllAttributes(); //debug using 
+	ListAllUniforms();
 }
 
 
@@ -56,17 +84,20 @@ GLuint ShaderProgram::LoadShader(const char *vertex_path, const char *fragment_p
 	//std::cout << "Linking program" << std::endl;
 	Debug::Log("Linking program");
 	// 建立著色器程式 // 創造著色器程式
-	GLuint program = glCreateProgram();
+	//GLuint program = glCreateProgram();
+	this->program = glCreateProgram();
 	// 將需要的著色器載入到著色器程式中
 	glAttachShader(program, vertShader);
 	glAttachShader(program, fragShader);
 	tcsShader == -1 ? tcsShader = -1: glAttachShader(program, tcsShader);
 	tesShader == -1 ? tesShader = -1 : glAttachShader(program, tesShader);
 	geoShader == -1 ? geoShader = -1 : glAttachShader(program, geoShader);
-
+	// Bind Attributes
+	BindAttributes();
 	// 載入完後連結到著色器
 	glLinkProgram(program);
-
+	GLuint tester1 = glGetAttribLocation(program, "boneID");
+	GLuint tester2 = glGetAttribLocation(program, "boneWeight");
 	// 確認著色器程式是否成功連結
 	DebugProgram(program);
 

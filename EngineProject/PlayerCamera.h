@@ -19,6 +19,8 @@ public:
 	void Move(float deltaTime) 
 	{
 		float zoom = (float)Mouse::GetDeltaWheel() * 0.5f;
+		if (Keyboard::GetKey(GLFW_KEY_LEFT_SHIFT))
+			zoom *= 0.2f;
 		distanceFromPlayer -= zoom;
 		MovePitch();
 		MoveYaw();

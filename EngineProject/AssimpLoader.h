@@ -28,5 +28,10 @@ private:
 	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 	std::string directory;
 	std::vector<aiString> texturesLoaded;
+
+	// bone
+	void LoadBoneAnimation(const aiScene* scene, std::map<std::string, Bone*>& boneMap);
+	void LoadBoneBasicTransform(const aiAnimation* animation, const aiNode* parentNode, const aiNode* childNode, std::map<std::string, Bone*>& boneMap);
+	const aiNodeAnim* FindNodeAnim(const aiAnimation* animation, std::string nodeName);
 };
 

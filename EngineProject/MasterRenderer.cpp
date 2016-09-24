@@ -7,6 +7,10 @@ MasterRenderer::MasterRenderer()
 	float width = (float)DisplayManager::GetWindowWidth();
 	float height = (float)DisplayManager::GetWindowHeight();
 	projectionMatrix = glm::perspective(FOV, (float)width / (float)height, NEAR_PLANE, FAR_PLANE);
+	shader.Init();
+	meshshader.Init();
+	cubeShader.Init();
+	terrainShader.Init();
 	renderer = new Renderer(shader, projectionMatrix);
 	meshesRenderer = new MeshesRenderer(meshshader, projectionMatrix);
 	lightRenderer = new LightSourceRenderer(cubeShader, projectionMatrix);

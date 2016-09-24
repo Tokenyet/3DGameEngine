@@ -14,6 +14,8 @@ public:
 	BasicRenderModel LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength);
 	BasicRenderModel LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength, float texCoords[], int texCoordLength);
 	BasicRenderModel LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength, float texCoords[], int texCoordLength, float normals[], int normalLength);
+	BasicRenderModel LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength, float texCoords[], int texCoordLength, float normals[], int normalLength, float boneID[], float boneWeight[], int boneLength);
+	BasicRenderModel LoadRenderModel(float position[], int pdataLength, int indices[], int indexLength, float texCoords[], int texCoordLength, float normals[], int normalLength, int boneID[], float boneWeight[], int boneLength);
 	Texture LoadTexture(const char* path);
 	// remember to call SOIL_free_image_data to free the image
 	unsigned char* LoadCustomImage(const char * path, int &width, int &height, int soilformat = SOIL_LOAD_RGBA);

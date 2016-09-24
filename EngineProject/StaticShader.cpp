@@ -5,7 +5,6 @@ StaticShader::StaticShader() : ShaderProgram(VERTEX_SHADER, FRAGMENT_SHADER)
 {
 	diffuseCount = 0;
 	specularCount = 0;
-	BindAttributes();
 }
 
 StaticShader::StaticShader(const char * vertex, const char * fragment)
@@ -13,7 +12,6 @@ StaticShader::StaticShader(const char * vertex, const char * fragment)
 {
 	diffuseCount = 0;
 	specularCount = 0;
-	BindAttributes();
 }
 
 void StaticShader::SetLight(Light light)

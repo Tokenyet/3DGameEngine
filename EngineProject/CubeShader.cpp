@@ -4,7 +4,6 @@ const char * CubeShader::VERTEX_SHADER = "shader/lightSource.vert";
 const char * CubeShader::FRAGMENT_SHADER = "shader/lightSource.frag";
 CubeShader::CubeShader() : ShaderProgram(VERTEX_SHADER, FRAGMENT_SHADER)
 {
-	BindAttributes();
 }
 
 void CubeShader::SetLight(Light light)

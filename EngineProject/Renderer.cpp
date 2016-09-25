@@ -50,8 +50,8 @@ void Renderer::Render(std::map<TextureModel, std::vector<Entity<TextureModel>>> 
 		for each (Entity<TextureModel> entity in batches)
 		{
 			PrepareInstance(entity);
-			glBindVertexArray(entity.GetModel().GetBasicRenderModel().GetVaoID());
-			glDrawElements(GL_TRIANGLES, entity.GetModel().GetBasicRenderModel().GetVertexCount(), GL_UNSIGNED_INT, 0);
+			glBindVertexArray(entity.GetModel()->GetBasicRenderModel().GetVaoID());
+			glDrawElements(GL_TRIANGLES, entity.GetModel()->GetBasicRenderModel().GetVertexCount(), GL_UNSIGNED_INT, 0);
 			glBindVertexArray(0);
 		}
 		UnbindTextureModel();

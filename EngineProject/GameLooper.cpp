@@ -14,7 +14,9 @@
 #include "MasterRenderer.h"
 #include "TerrainTexturePack.h"
 #include "Player.h"
+#include "CustomPlayer.h"
 #include "PlayerCamera.h"
+
 
 #include <vector>
 #include <time.h>
@@ -58,10 +60,15 @@ void GameLooper::Loop()
 
 	// MeshesModel represent a mesh collection for a model.
 	//MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/nanosuit/nanosuit.obj");
-	MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/mycharacter/mycharacter.dae", true);
+	MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/mycharacter/mycharacter.dae");
+	Animation *animation = assimpLoader.LoadAnimation("3dmodel/mycharacter/mycharacter.dae", true);
+	Animation *idleAnimation = assimpLoader.LoadAnimation("3dmodel/mycharacter/mycharacter-idle.dae", true);
+	meshesRenderObject.SetAnimation("Walk", animation);
+	meshesRenderObject.SetAnimation("Idle", idleAnimation);
 	/** Player Start **/
 	// Suit a player model for MeshesModel, just like normal Entity using.
-	Player<MeshesModel> player(meshesRenderObject, glm::vec3(100, 0, -200), 0, 180.0f, 0, 0.1f);
+	//Player<MeshesModel> player(meshesRenderObject, glm::vec3(100, 0, -200), 0, 180.0f, 0, 0.1f);
+	CustomPlayer player(meshesRenderObject, glm::vec3(100, 0, -200), 0, 180.0f, 0, 0.1f);
 	// Make a third player camera
 	PlayerCamera<MeshesModel> playerCamera(player);
 	/** Player End **/

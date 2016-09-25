@@ -17,9 +17,32 @@ MeshesModel AssimpLoader::GetMeshesModel(std::string path, bool rightHandSide)
 	}
 	this->directory = path.substr(0, path.find_last_of('/'));
 	this->rightHandSide = rightHandSide;
-	this->ProcessNode(scene->mRootNode, scene, meshes);
+	std::map<std::string, Bone*> boneMap;
+	this->ProcessNode(scene->mRootNode, scene, meshes, boneMap);
 	this->texturesLoaded.clear();
-	return MeshesModel(meshes);
+	MeshesModel model(meshes);
+	model.SetBoneMap(boneMap);
+	return model;
+}
+
+Animation * AssimpLoader::LoadAnimation(std::string path, bool rightHandSide)
+{
+	Assimp::Importer import;
+	const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+
+	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	{
+		std::cout << "ERROR::ASSIMP::" << import.GetErrorString() << std::endl;
+		throw "no model error";
+	}
+	glm::mat4 globalInverseTransform = glm::make_mat4<float>(scene->mRootNode->mTransformation[0]);
+	globalInverseTransform = glm::inverse(glm::transpose(globalInverseTransform));
+	if (rightHandSide)
+		globalInverseTransform = glm::mat4(TRANSFORM_TO_LEFT_HAND_SIDE) * globalInverseTransform;
+	std::map<std::string, Bone*> boneMaps;
+	LoadBoneBasicTransform(scene->mAnimations[0], nullptr, scene->mRootNode, boneMaps);
+	LoadBoneAnimation(scene, boneMaps);
+	return new Animation(scene->mAnimations[0]->mName.C_Str(), globalInverseTransform, boneMaps, (float)scene->mAnimations[0]->mTicksPerSecond, (float)scene->mAnimations[0]->mDuration);
 }
 
 std::vector<BasicRenderModel> AssimpLoader::GetBasicModel(std::string path)
@@ -44,13 +67,13 @@ AssimpLoader::~AssimpLoader()
 {
 }
 
-void AssimpLoader::ProcessNode(aiNode * node, const aiScene * scene, std::vector<MeshModel> &meshes)
+void AssimpLoader::ProcessNode(aiNode * node, const aiScene * scene, std::vector<MeshModel> &meshes, std::map<std::string, Bone*> &boneMap)
 {
 	// Process all the node's meshes (if any)
 	for (GLuint i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		meshes.push_back(this->ProcessMesh(mesh, scene));
+		meshes.push_back(this->ProcessMesh(mesh, scene, boneMap));
 	}
 	/*glm::mat4 mat4mat = glm::make_mat4<float>(node->mTransformation[0]);
 	mat4mat = glm::transpose(mat4mat);
@@ -69,11 +92,11 @@ void AssimpLoader::ProcessNode(aiNode * node, const aiScene * scene, std::vector
 	// Then do the same for each of its children
 	for (GLuint i = 0; i < node->mNumChildren; i++)
 	{
-		this->ProcessNode(node->mChildren[i], scene, meshes);
+		this->ProcessNode(node->mChildren[i], scene, meshes, boneMap);
 	}
 }
 
-MeshModel AssimpLoader::ProcessMesh(aiMesh * mesh, const aiScene * scene)
+MeshModel AssimpLoader::ProcessMesh(aiMesh * mesh, const aiScene * scene, std::map<std::string, Bone*> &boneMap)
 {
 	//std::vector<Vertex> vertices;
 	float *vertices = new float[mesh->mNumVertices * 3];
@@ -138,17 +161,15 @@ MeshModel AssimpLoader::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 	int *boneIDs = new int[boneLength];
 	std::fill_n(boneIDs, boneLength, -1);
 	float *weights = new float[boneLength] {0.0f};
-	
-	std::map<std::string, Bone*> boneMaps;
 
 	for (int i = 0; i < (int)mesh->mNumBones; i++)
 	{
 		std::string boneName = mesh->mBones[i]->mName.C_Str();
-		if (boneMaps.find(boneName) == boneMaps.end())
+		if (boneMap.find(boneName) == boneMap.end())
 		{
 			Bone *bone = new Bone();
-			bone->index = (int)boneMaps.size();
-			boneMaps.insert_or_assign(boneName, bone);
+			bone->index = (int)boneMap.size();
+			boneMap.insert_or_assign(boneName, bone);
 		}
 
 		for (int j = 0; j < (int)mesh->mBones[i]->mNumWeights; j++)
@@ -156,13 +177,13 @@ MeshModel AssimpLoader::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 			int vertexID = mesh->mBones[i]->mWeights[j].mVertexId;
 			float weight = mesh->mBones[i]->mWeights[j].mWeight;
 			glm::mat4 offsetMatrix = glm::make_mat4<float>(mesh->mBones[i]->mOffsetMatrix[0]);
-			boneMaps[boneName]->inverseBindPoseMatrix = glm::transpose(offsetMatrix);
+			boneMap[boneName]->inverseBindPoseMatrix = glm::transpose(offsetMatrix);
 			for (int k = 0; k < BONE_ID_MAXIMUM; k++)
 			{
 				int boneIndex = vertexID * BONE_ID_MAXIMUM + k;
 				if (boneIDs[boneIndex] == -1)
 				{
-					boneIDs[boneIndex] = boneMaps[boneName]->index;
+					boneIDs[boneIndex] = boneMap[boneName]->index;
 					weights[boneIndex] = weight;
 					//Debug::Log("vertex-index:" + std::to_string(boneIndex) + "/bone-index:" + std::to_string(boneMaps[boneName]->index));
 					break;
@@ -183,17 +204,8 @@ MeshModel AssimpLoader::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 
 	//BasicRenderModel model = this->loader.LoadRenderModel(vertices, vertexLength, indices, indexLength, texCoords, texCoordLength, normals, normalLength);
 	BasicRenderModel model = this->loader.LoadRenderModel(vertices, vertexLength, indices, indexLength, texCoords, texCoordLength, normals, normalLength, boneIDs, weights, boneLength);
-
-	glm::mat4 globalInverseTransform = glm::make_mat4<float>(scene->mRootNode->mTransformation[0]);
-	globalInverseTransform = glm::inverse(glm::transpose(globalInverseTransform));
-	if (this->rightHandSide)
-		globalInverseTransform = glm::mat4(TRANSFORM_TO_LEFT_HAND_SIDE) * globalInverseTransform;
-	LoadBoneBasicTransform(scene->mAnimations[0], nullptr, scene->mRootNode, boneMaps);
-	LoadBoneAnimation(scene, boneMaps);
-
-	MeshModel outputMesh(model, textures);
-	outputMesh.SetAnimationInfos(scene->mAnimations[0]->mName.C_Str(), globalInverseTransform, boneMaps, (float)scene->mAnimations[0]->mTicksPerSecond, (float)scene->mAnimations[0]->mDuration);
-	return outputMesh;
+	//outputMesh.SetAnimationInfos(scene->mAnimations[0]->mName.C_Str(), globalInverseTransform, boneMaps, (float)scene->mAnimations[0]->mTicksPerSecond, (float)scene->mAnimations[0]->mDuration);
+	return MeshModel(model, textures);
 	//return MeshModel(this->loader.LoadRenderModel(), );
 }
 
@@ -285,7 +297,6 @@ std::vector<Texture> AssimpLoader::LoadMaterialTextures(aiMaterial* mat, aiTextu
 	}
 	return textures;
 }
-
 
 void AssimpLoader::LoadBoneAnimation(const aiScene* scene, std::map<std::string, Bone*>& boneMap)
 {

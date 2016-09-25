@@ -8,7 +8,7 @@ public:
 	Entity(T model, glm::vec3 position, float rx, float ry, float rz, float scale, int atlaseIndex = 0);
 	void MovePosition(float dx, float dy, float dz);
 	void MoveRotation(float dx, float dy, float dz);
-	T GetModel();
+	T* GetModel();
 	glm::vec3 GetPosition();
 	float GetRotationX();
 	float GetRotationY();
@@ -58,9 +58,9 @@ void Entity<T>::MoveRotation(float dx, float dy, float dz)
 }
 
 template <class T>
-T Entity<T>::GetModel()
+T* Entity<T>::GetModel()
 {
-	return this->model;
+	return &this->model;
 }
 
 template <class T>

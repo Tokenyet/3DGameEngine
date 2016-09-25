@@ -12,9 +12,12 @@ MeshesRenderer::~MeshesRenderer()
 
 void MeshesRenderer::Render(Entity<MeshesModel> entity)
 {
-	MeshesModel meshesRenderObject = entity.GetModel();
-	std::vector<MeshModel> meshes = meshesRenderObject.GetMeshes();
+	MeshesModel *meshesRenderObject = entity.GetModel();
+	std::vector<MeshModel> meshes = meshesRenderObject->GetMeshes();
 	shader.StartProgram();
+	std::vector<glm::mat4> transforms = entity.GetModel()->MoveAnimation((float)glfwGetTime());
+	for (int i = 0; i < (int)transforms.size(); i++)
+		shader.SetBoneTransform(i, transforms[i]);
 	for each (MeshModel model in meshes)
 	{
 		ProcessMesh(model, entity.GetPosition(), entity.GetScale(),
@@ -40,12 +43,6 @@ void MeshesRenderer::ProcessMesh(MeshModel model, glm::vec3 position, float scal
 	if ((int)textures[TextureType::specular].size() > 0)
 		shader.SetSpecular(textures[TextureType::specular][0].GetID());
 	shader.SetShininess(32.0f);
-	std::vector<glm::mat4> transforms;
-	model.MoveAnimation((float)glfwGetTime(), transforms);
-	/*for (int i = 0; i < (int)transforms.size(); i++)
-		shader.SetBoneTransform(i, transforms[i]);*/
-	for (int i = 0; i < (int)transforms.size(); i++)
-		shader.SetBoneTransform(i, transforms[i]);
 
 	static int test = 0;
 	glUniform1i(glGetUniformLocation(shader.GetProgram(), "test"), test);

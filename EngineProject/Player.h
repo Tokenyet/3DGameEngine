@@ -8,7 +8,7 @@ class Player :
 public:
 	Player() {}
 	Player(T model, glm::vec3 position, float rx, float ry, float rz, float scale);
-	void PlayerMove(Terrain* terrain, float deltaTime);
+	virtual void PlayerMove(Terrain* terrain, float deltaTime);
 private:
 	const float RUN_SPEED = 5.0f;
 	const float TURN_SPEED = 160.0f;

@@ -44,6 +44,9 @@
     <Filter Include="Player">
       <UniqueIdentifier>{adb5b89c-137e-45dd-a340-dde4b0e67e63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Animation">
+      <UniqueIdentifier>{75493b98-77b8-48a1-9b67-387ed0b533d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DisplayManager.cpp">
@@ -133,6 +136,15 @@
     </ClCompile>
     <ClCompile Include="Core.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatablePlayer.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomPlayer.cpp">
+      <Filter>Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +240,15 @@
     </ClInclude>
     <ClInclude Include="PlayerCamera.h">
       <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatablePlayer.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomPlayer.h">
+      <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

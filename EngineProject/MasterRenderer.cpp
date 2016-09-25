@@ -61,13 +61,13 @@ void MasterRenderer::Render(Light light, Camera camera)
 
 void MasterRenderer::ProcessEntity(Entity<TextureModel> entity)
 {
-	TextureModel textureModel = entity.GetModel();
+	TextureModel* textureModel = entity.GetModel();
 	TextureModel existModel;
 	bool checker = false;
 	for (std::map<TextureModel, std::vector<Entity<TextureModel>>>::iterator it = texturedEntities.begin(); it != texturedEntities.end(); ++it)
 	{
 		existModel = it->first;
-		if (existModel.GetTexture() == textureModel.GetTexture())
+		if (existModel.GetTexture() == textureModel->GetTexture())
 		{
 			it->second.push_back(entity);
 			return;
@@ -76,7 +76,7 @@ void MasterRenderer::ProcessEntity(Entity<TextureModel> entity)
 
 	std::vector<Entity<TextureModel>> newBatch;
 	newBatch.push_back(entity);
-	texturedEntities.insert(std::pair<TextureModel, std::vector<Entity<TextureModel>>>(textureModel, newBatch));
+	texturedEntities.insert(std::pair<TextureModel, std::vector<Entity<TextureModel>>>(*textureModel, newBatch));
 }
 
 void MasterRenderer::ProcessEntity(Entity<MeshesModel> entity)

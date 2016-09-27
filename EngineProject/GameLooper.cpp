@@ -141,8 +141,8 @@ void GameLooper::Loop()
 			masterRenderer.ProcessTerrian(terrain);
 		masterRenderer.Render(light, playerCamera);
 		DisplayManager::UpdateDisplay();
-		player.PlayerMove(terrains[0] ,DisplayManager::GetDeltaTime());
-		playerCamera.Move(DisplayManager::GetDeltaTime());
+		player.PlayerMove(terrains[0] , (float)Time::GetDeltaTime());
+		playerCamera.Move((float)Time::GetDeltaTime());
 	}
 	loader.CleanUp();
 	/*for each (Terrain *terrain in terrains)

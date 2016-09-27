@@ -146,6 +146,9 @@
     <ClCompile Include="CustomPlayer.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisplayManager.h">
@@ -249,6 +252,9 @@
     </ClInclude>
     <ClInclude Include="CustomPlayer.h">
       <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

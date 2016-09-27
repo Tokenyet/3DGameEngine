@@ -9,6 +9,7 @@ class AnimatablePlayer :
 public:
 	AnimatablePlayer(MeshesModel model, glm::vec3 position, float rx, float ry, float rz, float scale);
 	~AnimatablePlayer();
+	// override, just want to hook the ControlAnimation.
 	void PlayerMove(Terrain* terrain, float deltaTime);
 protected:
 	void SetCurrentAnimation(std::string);

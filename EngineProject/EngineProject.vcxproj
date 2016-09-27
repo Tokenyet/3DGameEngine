@@ -154,6 +154,7 @@
     <ClCompile Include="TerrainTexturePack.cpp" />
     <ClCompile Include="TerriniShader.cpp" />
     <ClCompile Include="TextureModel.cpp" />
+    <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatablePlayer.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="TerrainTexturePack.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureModel.h" />
+    <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EngineProject.rc" />

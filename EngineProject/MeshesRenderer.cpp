@@ -15,7 +15,7 @@ void MeshesRenderer::Render(Entity<MeshesModel> entity)
 	MeshesModel *meshesRenderObject = entity.GetModel();
 	std::vector<MeshModel> meshes = meshesRenderObject->GetMeshes();
 	shader.StartProgram();
-	std::vector<glm::mat4> transforms = entity.GetModel()->MoveAnimation((float)glfwGetTime());
+	std::vector<glm::mat4> transforms = entity.GetModel()->MoveAnimation((float)Time::GetNowTime());
 	for (int i = 0; i < (int)transforms.size(); i++)
 		shader.SetBoneTransform(i, transforms[i]);
 	for each (MeshModel model in meshes)

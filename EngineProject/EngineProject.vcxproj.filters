@@ -149,6 +149,8 @@
     <ClCompile Include="Time.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="GuiRenderer.cpp" />
+    <ClCompile Include="GuiShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisplayManager.h">
@@ -256,6 +258,11 @@
     <ClInclude Include="Time.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="GuiRenderer.h" />
+    <ClInclude Include="GuiTexture.h">
+      <Filter>RenderModel</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EngineProject.rc">
@@ -291,6 +298,12 @@
       <Filter>資源檔</Filter>
     </None>
     <None Include="shader\mesh-nobone.vert">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="shader\gui.frag">
+      <Filter>資源檔</Filter>
+    </None>
+    <None Include="shader\gui.vert">
       <Filter>資源檔</Filter>
     </None>
   </ItemGroup>

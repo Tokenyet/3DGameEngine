@@ -24,6 +24,8 @@ public:
 		this->transparent = tex.transparent;
 		this->fakeLighting = tex.fakeLighting;
 		this->rowAtlaseCount = tex.rowAtlaseCount;
+		this->width = tex.width;
+		this->height = tex.height;
 	}
 
 	bool operator==(Texture const& tex)
@@ -44,6 +46,22 @@ public:
 	void SetTextureRowAtlaseCount(int count)
 	{
 		this->rowAtlaseCount = count;
+	}
+
+	void SetSize(int Width, int Height)
+	{
+		this->width = Width;
+		this->height = Height;
+	}
+
+	int GetWidth()
+	{
+		return this->width;
+	}
+
+	int GetHeight()
+	{
+		return this->height;
 	}
 
 	bool GetTransparent()
@@ -68,6 +86,8 @@ public:
 private:
 	GLuint id;
 	int rowAtlaseCount = 1;
+	int width;
+	int height;
 	bool fakeLighting = false;
 	bool transparent = false;
 };

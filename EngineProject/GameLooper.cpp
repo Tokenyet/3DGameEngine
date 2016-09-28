@@ -16,6 +16,7 @@
 #include "Player.h"
 #include "CustomPlayer.h"
 #include "PlayerCamera.h"
+#include "GuiRenderer.h"
 
 
 #include <vector>
@@ -130,6 +131,11 @@ void GameLooper::Loop()
 		cubes.push_back(fernEntity);
 	}
 
+	std::vector<GuiTexture> guis;
+	guis.push_back(GuiTexture(loader.LoadTexture("images/sword.png"), glm::vec2(-600.0f), 30.0f, glm::vec2(0.25f)));
+	guis.push_back(GuiTexture(loader.LoadTexture("images/title.png"), glm::vec2(600.0f), 0.0f, glm::vec2(0.30f)));
+	GuiRenderer guiRenderer;
+
 	while (!DisplayManager::IsCloseRequested())
 	{
 		float currentTime = (float)glfwGetTime();
@@ -140,6 +146,7 @@ void GameLooper::Loop()
 		for each (Terrain *terrain in terrains)
 			masterRenderer.ProcessTerrian(terrain);
 		masterRenderer.Render(light, playerCamera);
+		guiRenderer.Render(guis);
 		DisplayManager::UpdateDisplay();
 		player.PlayerMove(terrains[0] , (float)Time::GetDeltaTime());
 		playerCamera.Move((float)Time::GetDeltaTime());

@@ -132,9 +132,9 @@ void Animation::UpdateBone(Bone * bone)
 		if (bone->parent != nullptr && it->second->index == bone->parent->index)
 			parentName = it->first;
 	}
-	if (parentName != "")
+	/*if (parentName != "")
 		Debug::Log("parent:" + parentName);
-	Debug::Log("bone:" + boneName);
+	Debug::Log("bone:" + boneName);*/
 	glm::mat4 parentTransform = bone->getParentTransform();
 
 	if (boneName == "Scene" || boneName == "Armature")

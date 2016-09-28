@@ -15,7 +15,7 @@ BasicRenderModel Loader::LoadRenderModel(float position[], int pdataLength)
 {
 	GLuint vaoID = CreateVAO();
 	BindVAO(vaoID);
-	BindVertexAttribute(VertexAttributeLocationRule::position, 3, position, pdataLength);
+	BindVertexAttribute(VertexAttributeLocationRule::position, 2, position, pdataLength);
 	UnbindVAO();
 	return BasicRenderModel(vaoID, pdataLength);
 }
@@ -123,7 +123,9 @@ Texture Loader::LoadTexture(const char * path)
 	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//return Texture(texture, width, height);
-	return Texture(texture);
+	Texture tex(texture);
+	tex.SetSize(width, height);
+	return tex;
 }
 
 // remember to call SOIL_free_image_data to free the image

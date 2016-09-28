@@ -12,6 +12,8 @@
 #include "Core.h"
 #include "Entity.h"
 #include "Camera.h"
+#include "GuiTexture.h"
+#include "GuiRenderer.h"
 
 #include <map>
 

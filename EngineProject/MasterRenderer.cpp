@@ -23,6 +23,7 @@ MasterRenderer::~MasterRenderer()
 	delete renderer;
 	delete meshesRenderer;
 	delete lightRenderer;
+	delete terrainRenderer;
 }
 
 void MasterRenderer::Prepare()

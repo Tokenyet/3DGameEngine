@@ -75,8 +75,10 @@ void GameLooper::Loop()
 	/** Player End **/
 
 	// Light for global lighting.
-	Light light(glm::vec3(0.2f, 1.0f, -1), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
-		CubeShape::Indices, CubeShape::GetIndexLength()));
+	/*Light light(glm::vec3(0.2f, 1.0f, -1), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
+		CubeShape::Indices, CubeShape::GetIndexLength()));*/
+	DirLight dirLight(glm::vec3(100.0f, 100.0f, 100.0f), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
+		CubeShape::Indices, CubeShape::GetIndexLength()), glm::vec3(-1.0f, 0.0f, 0.0f));
 
 	/** Terrain Start **/
 	std::vector<Terrain*> terrains;
@@ -139,13 +141,12 @@ void GameLooper::Loop()
 	while (!DisplayManager::IsCloseRequested())
 	{
 		float currentTime = (float)glfwGetTime();
-		light.MovePosition(glm::sin(currentTime/2.0f)/10.0f, 0.0f, -1 * glm::sin(currentTime/2.0f)/10.0f);
 		for each (Entity<TextureModel> entity in cubes)
 			masterRenderer.ProcessEntity(entity);
 		masterRenderer.ProcessEntity(player);
 		for each (Terrain *terrain in terrains)
 			masterRenderer.ProcessTerrian(terrain);
-		masterRenderer.Render(light, playerCamera);
+		masterRenderer.Render(dirLight, playerCamera);
 		guiRenderer.Render(guis);
 		DisplayManager::UpdateDisplay();
 		player.PlayerMove(terrains[0] , (float)Time::GetDeltaTime());

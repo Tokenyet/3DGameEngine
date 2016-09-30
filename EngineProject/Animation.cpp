@@ -178,7 +178,7 @@ glm::mat4 Animation::GetInterpolateRotation(float time, std::vector<BoneKey>& ke
 		Factor = 0.0f;
 	if (Factor > 1.0f)
 		Factor = 1.0f;
-	assert(Factor > 0.0f && Factor < 1.0f);
+	assert(Factor >= 0.0f && Factor <= 1.0f);
 	const glm::quat& startRotationQ = keys[rotationIndex].rotation;
 	const glm::quat& endRotationQ = keys[nextRotationIndex].rotation;
 	glm::quat interpolateQ = glm::lerp(startRotationQ, endRotationQ, Factor);
@@ -205,7 +205,7 @@ glm::mat4 Animation::GetInterpolateTransform(float time, std::vector<BoneKey>& k
 		Factor = 0.0f;
 	if (Factor > 1.0f)
 		Factor = 1.0f;
-	assert(Factor > 0.0f && Factor < 1.0f);
+	assert(Factor >= 0.0f && Factor <= 1.0f);
 	const glm::vec3& startTranslate = keys[translateIndex].vector;
 	const glm::vec3& endTrabslate = keys[nextTranslateIndex].vector;
 	glm::vec3 delta = endTrabslate - startTranslate;
@@ -232,7 +232,7 @@ glm::mat4 Animation::GetInterpolateScaling(float time, std::vector<BoneKey>& key
 		Factor = 0.0f;
 	if (Factor > 1.0f)
 		Factor = 1.0f;
-	assert(Factor > 0.0f && Factor < 1.0f);
+	assert(Factor >= 0.0f && Factor <= 1.0f);
 	const glm::vec3& startScaling = keys[scalingIndex].vector;
 	const glm::vec3& endScaling = keys[nextScalingIndex].vector;
 	glm::vec3 delta = endScaling - startScaling;

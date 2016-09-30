@@ -75,7 +75,8 @@ void main()
 	/*boneTransformation = boneTransform[test % MAX_BONES];*/
 
 	vec3 usingPosition = (boneTransformation * vec4(position, 1.0)).xyz;
-	vec3 usingNormal = (boneTransformation * vec4(normal, 1.0)).xyz;
+	/// WTF!!!!! normal 0.0??????
+	vec3 usingNormal = (boneTransformation * vec4(normal, 0.0)).xyz;
 
     vec4 viewPos = view * model * vec4(usingPosition, 1.0);
     gl_Position =  projection * viewPos;

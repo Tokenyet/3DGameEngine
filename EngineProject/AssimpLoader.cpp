@@ -120,6 +120,7 @@ MeshModel AssimpLoader::ProcessMesh(aiMesh * mesh, const aiScene * scene, std::m
 		normals[i * 3] = mesh->mNormals[i].x;
 		normals[i * 3 + 1] = mesh->mNormals[i].y;
 		normals[i * 3 + 2] = mesh->mNormals[i].z;
+		//Debug::Log(std::to_string(normals[i * 3]) + "," + std::to_string(normals[i * 3 + 1]) + "," + std::to_string(normals[i * 3 + 2]));
 		if (mesh->mTextureCoords[0]) // Does the mesh contain texture coordinates?
 		{
 			texCoords[i * 2] = mesh->mTextureCoords[0][i].x;

@@ -30,6 +30,22 @@ void StaticShader::SetLight(Light light)
 	glUniform3fv(loc, 1, glm::value_ptr(light.GetSpecular()));
 }
 
+void StaticShader::SetDirLight(DirLight light)
+{
+	int loc = GetUniformLocation("dirLight.direction");
+	if (loc == -1) Debug::Log("DirLight Direction Setting Fail.");
+	glUniform3fv(loc, 1, glm::value_ptr(light.GetLightDir()));
+	loc = GetUniformLocation("dirLight.ambient");
+	if (loc == -1) Debug::Log("DirLight Ambient Setting Fail.");
+	glUniform3fv(loc, 1, glm::value_ptr(light.GetAmbient()));
+	loc = GetUniformLocation("dirLight.diffuse");
+	if (loc == -1) Debug::Log("DirLight Diffuse Setting Fail.");
+	glUniform3fv(loc, 1, glm::value_ptr(light.GetDiffuse()));
+	loc = GetUniformLocation("dirLight.specular");
+	if (loc == -1) Debug::Log("DirLight Specular Setting Fail.");
+	glUniform3fv(loc, 1, glm::value_ptr(light.GetSpecular()));
+}
+
 StaticShader::~StaticShader()
 {
 	this->DeleteProgram();

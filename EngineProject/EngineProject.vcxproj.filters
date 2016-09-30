@@ -149,8 +149,21 @@
     <ClCompile Include="Time.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="GuiRenderer.cpp" />
-    <ClCompile Include="GuiShader.cpp" />
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Light</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>Light</Filter>
+    </ClCompile>
+    <ClCompile Include="DirLight.cpp">
+      <Filter>Light</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="GuiShader.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisplayManager.h">
@@ -258,11 +271,24 @@
     <ClInclude Include="Time.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="GuiRenderer.h" />
     <ClInclude Include="GuiTexture.h">
       <Filter>RenderModel</Filter>
     </ClInclude>
-    <ClInclude Include="GuiShader.h" />
+    <ClInclude Include="PointLight.h">
+      <Filter>Light</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>Light</Filter>
+    </ClInclude>
+    <ClInclude Include="DirLight.h">
+      <Filter>Light</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiShader.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EngineProject.rc">

@@ -17,7 +17,7 @@ void LightSourceRenderer::Render(Camera camera, Light light)
 	shader.StartProgram();
 	glm::mat4 modelMatrix;
 	modelMatrix = glm::translate(modelMatrix, light.GetPosition());
-	modelMatrix = glm::scale(modelMatrix, glm::vec3(0.1f));
+	modelMatrix = glm::scale(modelMatrix, glm::vec3(10.0f));
 	shader.SetModelMatrix(modelMatrix);
 	shader.SetViewMatrix(camera.GetViewMatrix());
 	shader.SetProjectionMatrix(projectionMatrix);

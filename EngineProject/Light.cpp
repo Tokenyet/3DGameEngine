@@ -5,6 +5,7 @@ Light::Light(glm::vec3 position, BasicRenderModel model)
 {
 	this->position = position;
 	this->model = model;
+	this->lightType = LightType::OutOfType;
 	SetColorParameter();
 }
 

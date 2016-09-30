@@ -23,7 +23,7 @@ public:
 	MasterRenderer();
 	~MasterRenderer();
 	void Prepare();
-	void Render(Light light, Camera camera);
+	void Render(Light &light, Camera camera);
 	void ProcessEntity(Entity<TextureModel> entity);
 	void ProcessEntity(Entity<MeshesModel> entity);
 	void ProcessEntity(Entity<BasicRenderModel> entity);
@@ -49,7 +49,7 @@ private:
 	const float FOV = 45.0f;
 	const float NEAR_PLANE = 0.1f;
 	const float FAR_PLANE = 500.0f;
-	void PrepareStaticShader(StaticShader &shader, Camera camera, Light light);
+	void PrepareStaticShader(StaticShader &shader, Camera camera, Light &light);
 };
 
 

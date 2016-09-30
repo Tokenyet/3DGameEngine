@@ -34,7 +34,7 @@ void MasterRenderer::Prepare()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void MasterRenderer::Render(Light light, Camera camera)
+void MasterRenderer::Render(Light &light, Camera camera)
 {
 	Prepare();
 	shader.StartProgram();
@@ -105,9 +105,10 @@ void MasterRenderer::DisableCulling()
 	glDisable(GL_CULL_FACE);
 }
 
-void MasterRenderer::PrepareStaticShader(StaticShader & shader, Camera camera, Light light)
+void MasterRenderer::PrepareStaticShader(StaticShader & shader, Camera camera, Light &light)
 {
-	shader.SetLight(light);
+	if(light.GetType() == LightType::DirLightType)
+		shader.SetDirLight(static_cast<DirLight&>(light));
 	shader.SetSkyColor(SKY_COLOR);
 	shader.SetViewMatrix(camera.GetViewMatrix());
 	shader.SetViewPosition(camera.GetCameraPosition());

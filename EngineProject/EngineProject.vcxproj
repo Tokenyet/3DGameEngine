@@ -130,6 +130,7 @@
     <ClCompile Include="CubeShader.cpp" />
     <ClCompile Include="CubeShape.cpp" />
     <ClCompile Include="CustomPlayer.cpp" />
+    <ClCompile Include="DirLight.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GameLooper.cpp" />
@@ -148,8 +149,10 @@
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="StaticShader.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TerrainRenderer.cpp" />
@@ -168,6 +171,7 @@
     <ClInclude Include="CubeShader.h" />
     <ClInclude Include="CubeShape.h" />
     <ClInclude Include="CustomPlayer.h" />
+    <ClInclude Include="DirLight.h" />
     <ClInclude Include="DisplayManager.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GameLooper.h" />
@@ -187,8 +191,10 @@
     <ClInclude Include="OBJLoader.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerCamera.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="SpotLight.h" />
     <ClInclude Include="StaticShader.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TerrainRenderer.h" />

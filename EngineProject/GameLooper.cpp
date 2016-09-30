@@ -17,7 +17,7 @@
 #include "CustomPlayer.h"
 #include "PlayerCamera.h"
 #include "GuiRenderer.h"
-
+#include "PointLight.h"
 
 #include <vector>
 #include <time.h>
@@ -30,7 +30,6 @@ void GameLooper::Loop()
 	MasterRenderer masterRenderer;
 	// Create Loader for load texture, image, basic render model....etc.
 	Loader loader;
-
 
 	/* Cube Basic Render Object */
 	BasicRenderModel basicRenderObject = 
@@ -79,6 +78,12 @@ void GameLooper::Loop()
 		CubeShape::Indices, CubeShape::GetIndexLength()));*/
 	DirLight dirLight(glm::vec3(100.0f, 100.0f, 100.0f), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
 		CubeShape::Indices, CubeShape::GetIndexLength()), glm::vec3(-1.0f, 0.0f, 0.0f));
+	dirLight.SetColorParameter(glm::vec3(0.4f, 0.4f, 0.4f));
+	PointLight pointLight(glm::vec3(100.0f, 0.0f, -200.0f), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
+		CubeShape::Indices, CubeShape::GetIndexLength()));
+	std::vector<Light*> lights;
+	lights.push_back(&dirLight);
+	lights.push_back(&pointLight);
 
 	/** Terrain Start **/
 	std::vector<Terrain*> terrains;
@@ -146,11 +151,13 @@ void GameLooper::Loop()
 		masterRenderer.ProcessEntity(player);
 		for each (Terrain *terrain in terrains)
 			masterRenderer.ProcessTerrian(terrain);
-		masterRenderer.Render(dirLight, playerCamera);
+		masterRenderer.Render(lights, playerCamera);
 		guiRenderer.Render(guis);
 		DisplayManager::UpdateDisplay();
 		player.PlayerMove(terrains[0] , (float)Time::GetDeltaTime());
 		playerCamera.Move((float)Time::GetDeltaTime());
+
+		pointLight.MovePosition(glm::sin(glm::radians((float)Time::GetNowTime() * 50.0f)), 0.0f, glm::sin(glm::radians((float)Time::GetNowTime() * 50.0f)));
 	}
 	loader.CleanUp();
 	/*for each (Terrain *terrain in terrains)

@@ -46,6 +46,36 @@ void StaticShader::SetDirLight(DirLight light)
 	glUniform3fv(loc, 1, glm::value_ptr(light.GetSpecular()));
 }
 
+void StaticShader::SetPointLight(PointLight light)
+{
+	std::string number = std::to_string(pointLightCount);
+	int loc = GetUniformLocation("pointLights[" +  number  +"].position");
+	if (loc == -1) Debug::Log("Point Light Position Setting Fail.");
+	glUniform3fv(loc, 1, glm::value_ptr(light.GetPosition()));
+	loc = GetUniformLocation("pointLights[" + number + "].ambient");
+	if (loc == -1) Debug::Log("Point Light Ambient Setting Fail.");
+	glUniform3fv(loc, 1, glm::value_ptr(light.GetAmbient()));
+	loc = GetUniformLocation("pointLights[" + number + "].diffuse");
+	if (loc == -1) Debug::Log("Point Light Diffuse Setting Fail.");
+	glUniform3fv(loc, 1, glm::value_ptr(light.GetDiffuse()));
+	loc = GetUniformLocation("pointLights[" + number + "].specular");
+	if (loc == -1) Debug::Log("Point Light Specular Setting Fail.");
+	glUniform3fv(loc, 1, glm::value_ptr(light.GetSpecular()));
+	loc = GetUniformLocation("pointLights[" + number + "].constant");
+	if (loc == -1) Debug::Log("Point Light Constant Setting Fail.");
+	glUniform1f(loc, light.GetConstant());
+	loc = GetUniformLocation("pointLights[" + number + "].linear");
+	if (loc == -1) Debug::Log("Point Light Linear Setting Fail.");
+	glUniform1f(loc, light.GetLinear());
+	loc = GetUniformLocation("pointLights[" + number + "].quadratic");
+	if (loc == -1) Debug::Log("Point Light Quadratic Setting Fail.");
+	glUniform1f(loc, light.GetQuadratic());
+	pointLightCount++;
+	loc = GetUniformLocation("pointLightSize");
+	if (loc == -1) Debug::Log("Point Light Size Setting Fail.");
+	glUniform1i(loc, pointLightCount);
+}
+
 StaticShader::~StaticShader()
 {
 	this->DeleteProgram();
@@ -61,6 +91,11 @@ void StaticShader::BindAttributes()
 GLuint StaticShader::GetUniformLocation(const char * name)
 {
 	return glGetUniformLocation(this->GetProgram(), name);
+}
+
+GLuint StaticShader::GetUniformLocation(std::string name)
+{
+	return glGetUniformLocation(this->GetProgram(), name.c_str());
 }
 
 void StaticShader::SetDiffuse(GLuint texture)
@@ -150,4 +185,5 @@ void StaticShader::ClearRelativeData()
 {
 	diffuseCount = 0;
 	specularCount = 0;
+	pointLightCount = 0;
 }

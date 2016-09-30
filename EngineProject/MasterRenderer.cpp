@@ -34,27 +34,27 @@ void MasterRenderer::Prepare()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void MasterRenderer::Render(Light &light, Camera camera)
+void MasterRenderer::Render(std::vector<Light*> lights, Camera camera)
 {
 	Prepare();
 	shader.StartProgram();
-	PrepareStaticShader(shader, camera, light);
+	PrepareStaticShader(shader, camera, lights);
 	renderer->Render(texturedEntities);
 	texturedEntities.clear();
 	shader.StopProgram();
 
 
-	lightRenderer->Render(camera, light);
+	lightRenderer->Render(camera, lights);
 
 	meshshader.StartProgram();
-	PrepareStaticShader(meshshader, camera, light);
+	PrepareStaticShader(meshshader, camera, lights);
 	for each (Entity<MeshesModel> meshes in meshesEntities)
 		meshesRenderer->Render(meshes);
 	meshesEntities.clear();
 	meshshader.StopProgram();
 
 	terrainShader.StartProgram();
-	PrepareStaticShader(terrainShader, camera, light);
+	PrepareStaticShader(terrainShader, camera, lights);
 	terrainRenderer->Render(terrains);
 	terrains.clear();
 	terrainShader.StopProgram();
@@ -105,12 +105,18 @@ void MasterRenderer::DisableCulling()
 	glDisable(GL_CULL_FACE);
 }
 
-void MasterRenderer::PrepareStaticShader(StaticShader & shader, Camera camera, Light &light)
+void MasterRenderer::PrepareStaticShader(StaticShader & shader, Camera camera, std::vector<Light*> lights)
 {
-	if(light.GetType() == LightType::DirLightType)
-		shader.SetDirLight(static_cast<DirLight&>(light));
+	for each (Light* light in lights)
+	{
+		if (light->GetType() == LightType::DirLightType)
+			shader.SetDirLight(*static_cast<DirLight*>(light));
+		else if (light->GetType() == LightType::PointLightType && typeid(shader) == typeid(StaticShader))
+			shader.SetPointLight(*static_cast<PointLight*>(light));
+	}
 	shader.SetSkyColor(SKY_COLOR);
 	shader.SetViewMatrix(camera.GetViewMatrix());
 	shader.SetViewPosition(camera.GetCameraPosition());
 	shader.SetProjectionMatrix(projectionMatrix);
+	shader.ClearRelativeData();
 }

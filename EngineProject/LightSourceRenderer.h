@@ -12,7 +12,7 @@ class LightSourceRenderer
 public:
 	LightSourceRenderer(CubeShader &shader, glm::mat4 projectionMatrix);
 	~LightSourceRenderer();
-	void Render(Camera camera, Light entity);
+	void Render(Camera camera, std::vector<Light*> lights);
 private:
 	CubeShader &shader;
 	glm::mat4 projectionMatrix;

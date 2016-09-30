@@ -2,6 +2,7 @@
 #include "ShaderProgram.h"
 #include "Light.h"
 #include "DirLight.h"
+#include "PointLight.h"
 class StaticShader :
 	public ShaderProgram
 {
@@ -13,6 +14,7 @@ public:
 	StaticShader(const char* vertex, const char* fragment);
 	void SetLight(Light light);
 	void SetDirLight(DirLight light);
+	void SetPointLight(PointLight light);
 	virtual void SetDiffuse(GLuint texture);
 	virtual void SetSpecular(glm::vec3 materialSpecular);
 	virtual void SetShininess(float shininess = 32.0f);
@@ -30,7 +32,9 @@ protected:
 	// set layout location for specific vertex attribute
 	virtual void BindAttributes();
 	GLuint GetUniformLocation(const char* name);
+	GLuint GetUniformLocation(std::string name);
 	int diffuseCount;
 	int specularCount;
+	int pointLightCount;
 };
 

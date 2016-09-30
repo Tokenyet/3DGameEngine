@@ -107,11 +107,12 @@ void MasterRenderer::DisableCulling()
 
 void MasterRenderer::PrepareStaticShader(StaticShader & shader, Camera camera, std::vector<Light*> lights)
 {
+	//For testing => if (light->GetType() == LightType::PointLightType && typeid(shader) == typeid(StaticShader))
 	for each (Light* light in lights)
 	{
 		if (light->GetType() == LightType::DirLightType)
 			shader.SetDirLight(*static_cast<DirLight*>(light));
-		else if (light->GetType() == LightType::PointLightType && typeid(shader) == typeid(StaticShader))
+		else if (light->GetType() == LightType::PointLightType)
 			shader.SetPointLight(*static_cast<PointLight*>(light));
 	}
 	shader.SetSkyColor(SKY_COLOR);

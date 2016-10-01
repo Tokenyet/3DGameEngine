@@ -1,8 +1,8 @@
 #include "TerrainShader.h"
 
 
-const char * TerrainShader::VERTEX_SHADER = "shader/terrian.vert";
-const char * TerrainShader::FRAGMENT_SHADER = "shader/terrian.frag";
+const char * TerrainShader::VERTEX_SHADER = "shader/terrain.vert";
+const char * TerrainShader::FRAGMENT_SHADER = "shader/terrain.frag";
 TerrainShader::TerrainShader() : StaticShader(VERTEX_SHADER, FRAGMENT_SHADER)
 {
 }

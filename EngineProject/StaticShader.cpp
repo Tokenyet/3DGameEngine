@@ -163,7 +163,7 @@ void StaticShader::SetFakeLighting(bool enable)
 void StaticShader::SetSkyColor(glm::vec3 color)
 {
 	int loc = GetUniformLocation("skyColor");
-	if (loc == -1) Debug::Log("Fake Lighting Setting Fail.");
+	if (loc == -1) Debug::Log("Sky Color Setting Fail.");
 	glUniform3fv(loc, 1, glm::value_ptr(color));
 }
 

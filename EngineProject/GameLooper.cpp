@@ -61,7 +61,7 @@ void GameLooper::Loop()
 	// MeshesModel represent a mesh collection for a model.
 	//MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/nanosuit/nanosuit.obj");
 	MeshesModel meshesRenderObject = assimpLoader.GetMeshesModel("3dmodel/mycharacter/mycharacter.dae");
-	Animation *animation = assimpLoader.LoadAnimation("3dmodel/mycharacter/mycharacter.fbx", true);
+	Animation *animation = assimpLoader.LoadAnimation("3dmodel/mycharacter/mycharacter.dae", true);
 	Animation *idleAnimation = assimpLoader.LoadAnimation("3dmodel/mycharacter/mycharacter-idle.dae", true);
 	meshesRenderObject.SetAnimation("Walk", animation);
 	meshesRenderObject.SetAnimation("Idle", idleAnimation);

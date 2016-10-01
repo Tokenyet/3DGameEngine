@@ -81,9 +81,18 @@ void GameLooper::Loop()
 	dirLight.SetColorParameter(glm::vec3(0.4f, 0.4f, 0.4f));
 	PointLight pointLight(glm::vec3(100.0f, 0.0f, -200.0f), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
 		CubeShape::Indices, CubeShape::GetIndexLength()));
+	PointLight pointLight2(glm::vec3(100.0f, 0.0f, -200.0f), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
+		CubeShape::Indices, CubeShape::GetIndexLength()));
+	PointLight pointLight3(glm::vec3(100.0f, 0.0f, -200.0f), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
+		CubeShape::Indices, CubeShape::GetIndexLength()));
+	PointLight pointLight4(glm::vec3(100.0f, 0.0f, -200.0f), loader.LoadRenderModel(CubeShape::Positions, CubeShape::GetPositionLength(),
+		CubeShape::Indices, CubeShape::GetIndexLength()));
 	std::vector<Light*> lights;
 	lights.push_back(&dirLight);
 	lights.push_back(&pointLight);
+	lights.push_back(&pointLight2);
+	lights.push_back(&pointLight3);
+	lights.push_back(&pointLight4);
 
 	/** Terrain Start **/
 	std::vector<Terrain*> terrains;
@@ -158,6 +167,9 @@ void GameLooper::Loop()
 		playerCamera.Move((float)Time::GetDeltaTime());
 
 		pointLight.MovePosition(glm::sin(glm::radians((float)Time::GetNowTime() * 50.0f)), 0.0f, glm::sin(glm::radians((float)Time::GetNowTime() * 50.0f)));
+		pointLight2.MovePosition(glm::sin(-glm::radians((float)Time::GetNowTime() * 50.0f)), 0.0f, glm::sin(-glm::radians((float)Time::GetNowTime() * 50.0f)));
+		pointLight3.MovePosition(glm::cos(glm::radians((float)Time::GetNowTime() * 50.0f)), 0.0f, glm::sin(glm::radians((float)Time::GetNowTime() * 50.0f)));
+		pointLight4.MovePosition(glm::sin(glm::radians((float)Time::GetNowTime() * 50.0f)), 0.0f, glm::cos(glm::radians((float)Time::GetNowTime() * 50.0f)));
 	}
 	loader.CleanUp();
 	/*for each (Terrain *terrain in terrains)
